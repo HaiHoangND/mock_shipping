@@ -3,6 +3,8 @@ package com.sapo.shipping.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table
@@ -15,7 +17,6 @@ public class Receiver {
     private String address;
     private String phone;
 
-//    @JoinColumn(name = "order_id")
-//    @OneToMany(mappedBy = "order")
-//    private Order order;
+    @OneToMany(mappedBy = "receiver")
+    private List<ShippingOrder> shippingOrders;
 }

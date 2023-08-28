@@ -40,4 +40,7 @@ public class ShippingOrder {
     @OneToMany(mappedBy = "shippingOrder")
     private List<OrderRoute> orderRoutes;
 
+    @OneToMany(mappedBy = "shippingOrder")
+    private List<Product> products;
+
 }
