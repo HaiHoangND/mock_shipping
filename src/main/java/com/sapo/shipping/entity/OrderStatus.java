@@ -29,6 +29,7 @@ public class OrderStatus {
     private String nextLocation;
 
     @JoinColumn(name = "current_location_route_id")
+    @OneToOne
     private OrderRoute orderRoute;
 
     private String status;
