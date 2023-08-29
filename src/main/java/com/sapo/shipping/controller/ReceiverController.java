@@ -2,10 +2,8 @@ package com.sapo.shipping.controller;
 
 
 import com.sapo.shipping.dto.ReceiverDto;
-import com.sapo.shipping.dto.SenderDto;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.ReceiverService;
-import com.sapo.shipping.service.impl.SenderService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
