@@ -14,7 +14,9 @@ public class OrderStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+
+
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private ShippingOrder shippingOrder;
 

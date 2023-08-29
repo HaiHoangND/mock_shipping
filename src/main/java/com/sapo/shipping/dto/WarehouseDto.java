@@ -1,8 +1,7 @@
 package com.sapo.shipping.dto;
 
-
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
 
 @Builder
 @AllArgsConstructor
