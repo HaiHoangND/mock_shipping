@@ -16,6 +16,4 @@ public class Sender {
     private String name;
     private String address;
     private String phone;
-    @OneToMany(mappedBy = "sender")
-    private List<ShippingOrder> shippingOrders;
 }
