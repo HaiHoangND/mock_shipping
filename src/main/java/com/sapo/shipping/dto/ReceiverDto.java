@@ -1,5 +1,6 @@
 package com.sapo.shipping.dto;
 
+
 import lombok.*;
 
 @Builder
@@ -7,8 +8,10 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WarehouseDto {
+public class ReceiverDto {
     private int id;
+
     private String name;
     private String address;
+    private String phone;
 }
