@@ -41,4 +41,11 @@ public class ProductController {
                 "Successfully created",
                 productService.update(id, productDto));
     }
+
+    @DeleteMapping("{id}")
+    GeneralResponse<?> deleteProductById(@PathVariable int id){
+        return GeneralResponse.ok("success",
+                "Successfully deleted",
+                productService.delete(id));
+    }
 }

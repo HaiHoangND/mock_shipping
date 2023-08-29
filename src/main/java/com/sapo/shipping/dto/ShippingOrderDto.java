@@ -7,6 +7,7 @@ import com.sapo.shipping.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShippingOrderDto {
+public class ShippingOrderDto implements Serializable {
     private int id;
 
     @NotBlank(message = "Code must not be empty")

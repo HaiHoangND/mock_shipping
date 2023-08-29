@@ -1,8 +1,9 @@
 package com.sapo.shipping.controller;
 
+import com.sapo.shipping.dto.UserDto;
+import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.UserService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -11,5 +12,41 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    GeneralResponse<?> getAllUsers(@RequestParam int pageNumber,
+                                            @RequestParam int pageSize) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.getAll(pageNumber, pageSize));
+    }
+
+    @GetMapping("{id}")
+    GeneralResponse<?> getUserById(@PathVariable int id) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.getById(id));
+    }
+
+    @PostMapping
+    GeneralResponse<?> createUser(@RequestBody UserDto userDto) {
+        return GeneralResponse.ok("success",
+                "Successfully created",
+                userService.create(userDto));
+    }
+
+    @PutMapping("{id}")
+    GeneralResponse<?> updateUser(@PathVariable int id, @RequestBody UserDto userDto) {
+        return GeneralResponse.ok("success",
+                "Successfully created",
+                userService.update(id, userDto));
+    }
+
+    @DeleteMapping("{id}")
+    GeneralResponse<?> deleteUser(@PathVariable int id) {
+        return GeneralResponse.ok("success",
+                "Successfully deleted",
+                userService.delete(id));
     }
 }

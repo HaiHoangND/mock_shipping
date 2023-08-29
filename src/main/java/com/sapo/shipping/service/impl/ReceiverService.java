@@ -7,9 +7,12 @@ import com.sapo.shipping.mapper.ReceiverMapper;
 import com.sapo.shipping.repository.ReceiverRepository;
 import com.sapo.shipping.service.IReceiverService;
 import jakarta.validation.Validator;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ReceiverService implements IReceiverService {
     private final ReceiverRepository receiverRepository;
     private final ReceiverMapper mapper;
