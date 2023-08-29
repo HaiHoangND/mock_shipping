@@ -1,6 +1,7 @@
 package com.sapo.shipping.controller;
 
 import com.sapo.shipping.service.impl.UserService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,4 +13,5 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 }
