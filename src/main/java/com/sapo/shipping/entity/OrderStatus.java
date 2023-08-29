@@ -28,8 +28,8 @@ public class OrderStatus {
     @Column(name = "next_location")
     private String nextLocation;
 
-//    @JoinColumn(name = "current_location_route_id")
-//    private OrderRoute orderRoute;
+    @JoinColumn(name = "current_location_route_id")
+    private OrderRoute orderRoute;
 
     private String status;
 

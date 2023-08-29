@@ -15,7 +15,5 @@ public class Receiver {
     private String address;
     private String phone;
 
-//    @JoinColumn(name = "order_id")
-//    @OneToMany(mappedBy = "order")
-//    private Order order;
+
 }
