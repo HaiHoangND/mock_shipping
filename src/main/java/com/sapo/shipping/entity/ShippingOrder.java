@@ -47,4 +47,7 @@ public class ShippingOrder {
     @OneToMany(mappedBy = "shippingOrder")
     private List<Product> products;
 
+    @OneToMany(mappedBy = "shippingOrder")
+    private List<OrderStatus> orderStatuses;
+
 }
