@@ -1,17 +1,19 @@
 package com.sapo.shipping.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "shipping_order")
-public class ShippingOrder {
+public class ShippingOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,6 +23,7 @@ public class ShippingOrder {
     @Column(name = "service_fee")
     private Double serviceFee;
 
+    @JsonIgnore
     @JoinColumn(name = "warehouse_id")
     @ManyToOne
     private Warehouse warehouse;
@@ -37,6 +40,7 @@ public class ShippingOrder {
     @JoinColumn(name = "receiver_id")
     private Receiver receiver;
 
+
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private Sender sender;
@@ -48,6 +52,6 @@ public class ShippingOrder {
     private List<Product> products;
 
     @OneToMany(mappedBy = "shippingOrder")
-    private List<OrderStatus> orderStatuses;
+    private List<OrderStatus> orderStatusList;
 
 }

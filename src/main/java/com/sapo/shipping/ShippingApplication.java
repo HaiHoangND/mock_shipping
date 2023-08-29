@@ -1,4 +1,5 @@
 package com.sapo.shipping;
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -12,11 +13,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		info = @Info(
 				title = "shipping",
 				version = "1.0.0",
-				description = "Not thing",
+
+				description = "Good App",
 				termsOfService = "runcodenow",
 				contact = @Contact(
-						name = "hieucao",
-						email = "baohieu888@gmail.com"
+						name = "Anonymous",
+						email = "dev.team@gmail.com"
 				),
 				license = @License(
 						name = "license",

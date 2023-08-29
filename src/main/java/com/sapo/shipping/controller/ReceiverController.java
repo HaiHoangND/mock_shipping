@@ -25,17 +25,17 @@ public class ReceiverController {
         return GeneralResponse.ok("success", " Receiver Successfully fetched",receiverService.getReceiverById(id));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     GeneralResponse<?> createReceiver(@RequestBody ReceiverDto receiverDto) {
         return GeneralResponse.ok("success", " Receiver Successfully created",receiverService.createReceiver(receiverDto));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     GeneralResponse<?> updateReceiver(@PathVariable Integer id, @RequestBody ReceiverDto receiverDto) {
         return GeneralResponse.ok("success", " Receiver Successfully updated",receiverService.updateReceiver(id, receiverDto));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     GeneralResponse<?> deleteReceiver(@PathVariable Integer id) {
         return GeneralResponse.ok("success",  "Receiver Successfully deleted",receiverService.deleteReceiverById(id));
     }
