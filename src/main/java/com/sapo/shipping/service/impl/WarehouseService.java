@@ -6,6 +6,8 @@ import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.WarehouseMapper;
 import com.sapo.shipping.repository.WarehouseRepository;
 import com.sapo.shipping.service.IWarehouseService;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,10 +17,12 @@ import java.util.List;
 public class WarehouseService implements IWarehouseService {
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper mapper;
+    private final Validator validator;
 
-    public WarehouseService(WarehouseRepository warehouseRepository, WarehouseMapper mapper) {
+    public WarehouseService(WarehouseRepository warehouseRepository, WarehouseMapper mapper, Validator validator) {
         this.warehouseRepository = warehouseRepository;
         this.mapper = mapper;
+        this.validator = validator;
     }
 
     @Override
@@ -35,7 +39,37 @@ public class WarehouseService implements IWarehouseService {
     @Override
     public Warehouse create(WarehouseDto warehouseDto) {
         List<String> errors = new ArrayList<>();
+        validator.validate(warehouseDto)
+                .forEach(e -> errors.add(e.getMessage()));
+        if (!errors.isEmpty()) {
+            throw new BusinessException("400", "error", errors.get(0));
+        }
         Warehouse warehouse = mapper.createEntity(warehouseDto);
         return warehouseRepository.save(warehouse);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public List<Warehouse> delete(int id) {
+        warehouseRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("404", "error", "Warehouse not found"));
+        warehouseRepository.deleteById(id);
+        return warehouseRepository.findAll();
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public Warehouse update(int id, WarehouseDto warehouseDto) {
+        List<String> errors = new ArrayList<>();
+        validator.validate(warehouseDto)
+                .forEach(e -> errors.add(e.getMessage()));
+        if (!errors.isEmpty()) {
+            throw new BusinessException("400", "error", errors.get(0));
+        }
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("404", "error", "Warehouse not found"));
+        mapper.updateEntity(warehouse, warehouseDto);
+        return warehouseRepository.save(warehouse);
+
     }
 }

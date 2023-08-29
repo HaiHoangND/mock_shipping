@@ -21,6 +21,10 @@ public class ShippingOrder {
     @Column(name = "service_fee")
     private Double serviceFee;
 
+    @JoinColumn(name = "warehouse_id")
+    @ManyToOne
+    private Warehouse warehouse;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

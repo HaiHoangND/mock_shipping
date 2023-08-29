@@ -22,8 +22,6 @@ public class OrderStatus {
     @JoinColumn(name = "shipper_id")
     private User user;
 
-    @Column(name = "current_location")
-    private String currentLocation;
 
     @Column(name = "next_location")
     private String nextLocation;

@@ -19,10 +19,6 @@ public class Product {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse_id")
-    private Warehouse warehouse;
-
-    @ManyToOne
     @JoinColumn(name = "order_id")
     private ShippingOrder shippingOrder;
 
