@@ -14,5 +14,5 @@ public interface IProductService {
 
     Product update(int id, ProductDto productDto);
 
-    List<Product> delete(int id);
+    Boolean delete(int id);
 }

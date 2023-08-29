@@ -65,10 +65,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> delete(int id) {
+    public Boolean delete(int id) {
         productRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Product not found"));
         productRepository.deleteById(id);
-        return productRepository.findAll();
+        return true;
     }
 }

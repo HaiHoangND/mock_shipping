@@ -25,17 +25,17 @@ public class SenderController {
         return GeneralResponse.ok("success", "Sender Successfully fetched",senderService.getSenderById(id));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     GeneralResponse<?> createSender(@RequestBody SenderDto senderDto) {
         return GeneralResponse.ok("success", " Sender Successfully created",senderService.createSender(senderDto));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     GeneralResponse<?> updateSender(@PathVariable Integer id, @RequestBody SenderDto senderDto) {
         return GeneralResponse.ok("success", " Sender Successfully updated",senderService.updateSender(id, senderDto));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     GeneralResponse<?> deleteSender(@PathVariable Integer id) {
         return GeneralResponse.ok("success", " Sender Successfully deleted",senderService.deleteSenderById(id));
     }
