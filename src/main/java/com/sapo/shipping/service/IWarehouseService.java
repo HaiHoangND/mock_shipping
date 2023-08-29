@@ -11,4 +11,8 @@ public interface IWarehouseService {
     Warehouse getById(int id);
 
     Warehouse create(WarehouseDto warehouseDto);
+
+    List<Warehouse> delete(int id);
+
+    Warehouse update(int id, WarehouseDto warehouseDto);
 }
