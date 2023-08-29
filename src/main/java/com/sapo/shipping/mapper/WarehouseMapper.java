@@ -11,6 +11,8 @@ public interface WarehouseMapper extends GenericMapper<WarehouseDto,Warehouse> {
 
     WarehouseDto toDto(Warehouse entity);
 
+//    @Mapping(target = "name", source = "name")
+//    @Mapping(target = "address", source = "address")
     Warehouse createEntity(WarehouseDto dto);
 
     @Mapping(target = "id", ignore = true)

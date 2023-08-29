@@ -27,4 +27,27 @@ public class WarehouseController {
                 "Successfully created",
                 warehouseService.create(warehouseDto));
     }
+
+    @GetMapping("{id}")
+    GeneralResponse<?> getWarehouseById(@PathVariable int id){
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                warehouseService.getById(id));
+    }
+
+    @DeleteMapping("{id}")
+    GeneralResponse<?> deleteWarehouseById(@PathVariable int id){
+        return GeneralResponse.ok("success",
+                "Successfully deleted",
+                warehouseService.delete(id));
+    }
+
+    @PutMapping("{id}")
+    GeneralResponse<?> updateWarehouseById(@PathVariable int id, @RequestBody WarehouseDto warehouseDto){
+        return GeneralResponse.ok("success",
+                "Successfully updated",
+                warehouseService.update(id, warehouseDto));
+    }
+
+
 }

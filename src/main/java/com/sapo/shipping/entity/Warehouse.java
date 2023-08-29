@@ -15,7 +15,9 @@ public class Warehouse {
     private String name;
     private String address;
 
+//    @JoinColumn(name = "shipping_order_id")
     @OneToMany(mappedBy = "warehouse")
-    private List<Product> products;
+    private List<ShippingOrder> shippingOrders;
+
 
 }
