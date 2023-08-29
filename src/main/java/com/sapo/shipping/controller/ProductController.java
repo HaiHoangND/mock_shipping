@@ -1,8 +1,9 @@
 package com.sapo.shipping.controller;
 
+import com.sapo.shipping.dto.ProductDto;
+import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.ProductService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/product")
@@ -11,5 +12,33 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @GetMapping
+    GeneralResponse<?> getAllProducts() {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                productService.getAll());
+    }
+
+    @GetMapping("{id}")
+    GeneralResponse<?> getProductById(@PathVariable int id) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                productService.getById(id));
+    }
+
+    @PostMapping
+    GeneralResponse<?> createProduct(@RequestBody ProductDto productDto) {
+        return GeneralResponse.ok("success",
+                "Successfully created",
+                productService.create(productDto));
+    }
+
+    @PutMapping("{id}")
+    GeneralResponse<?> updateProduct(@PathVariable int id, @RequestBody ProductDto productDto) {
+        return GeneralResponse.ok("success",
+                "Successfully created",
+                productService.update(id, productDto));
     }
 }

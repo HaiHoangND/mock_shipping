@@ -16,7 +16,7 @@ public class OrderStatus {
 
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private ShippingOrder shippingOrder;
 
