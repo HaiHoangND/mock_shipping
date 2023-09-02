@@ -1,13 +1,26 @@
 package com.sapo.shipping.entity;
 
 
+import com.sapo.shipping.auth.permission.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
 @Table
-public class User {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -16,7 +29,11 @@ public class User {
     private String password;
     @Column(name = "full_name")
     private String fullName;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+
     @Column(name = "warehouse_id")
     private int warehouseId;
     private String address;
@@ -26,4 +43,39 @@ public class User {
     private String profilePicture;
     @Column(name = "working_status")
     private boolean workingStatus;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
