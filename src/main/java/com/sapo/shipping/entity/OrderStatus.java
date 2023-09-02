@@ -16,16 +16,14 @@ public class OrderStatus implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private ShippingOrder shippingOrder;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "shipper_id")
-    private User user;
+    private User shipper;
 
 
     @Column(name = "next_location")

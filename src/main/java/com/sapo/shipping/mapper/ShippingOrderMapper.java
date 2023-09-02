@@ -11,13 +11,11 @@ public interface ShippingOrderMapper extends GenericMapper<ShippingOrderDto, Shi
     @Override
     @Mapping(source = "receiver.id", target = "receiverId")
     @Mapping(source = "sender.id", target = "senderId")
-    @Mapping(source = "warehouse.id", target = "warehouseId")
     ShippingOrderDto toDto(ShippingOrder entity);
 
     @Override
     @Mapping(source = "receiverId", target = "receiver.id")
     @Mapping(source = "senderId", target = "sender.id")
-    @Mapping(source = "warehouseId", target = "warehouse.id")
     ShippingOrder createEntity(ShippingOrderDto dto);
 
     @Override
@@ -25,6 +23,5 @@ public interface ShippingOrderMapper extends GenericMapper<ShippingOrderDto, Shi
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(source = "receiverId", target = "receiver.id")
     @Mapping(source = "senderId", target = "sender.id")
-    @Mapping(source = "warehouseId", target = "warehouse.id")
     void updateEntity(@MappingTarget ShippingOrder entity, ShippingOrderDto dto);
 }

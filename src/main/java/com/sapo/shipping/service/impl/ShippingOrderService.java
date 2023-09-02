@@ -40,6 +40,21 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
+    public ShippingOrder findByOrderCode(String orderCode) {
+        return shippingOrderRepository.findByOrderCode(orderCode);
+    }
+
+    @Override
+    public Long countShippingOrdersAreDelivering(){
+        return shippingOrderRepository.countShippingOrdersAreDelivering();
+    };
+
+    @Override
+    public Long countSuccessfulDeliveredShippingOrders(){
+        return shippingOrderRepository.countSuccessfulDeliveredShippingOrders();
+    };
+
+    @Override
     public ShippingOrder create(ShippingOrderDto shippingOrderDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(shippingOrderDto)

@@ -1,6 +1,7 @@
 package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.WarehouseDto;
+import com.sapo.shipping.entity.User;
 import com.sapo.shipping.entity.Warehouse;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.WarehouseMapper;
@@ -8,6 +9,7 @@ import com.sapo.shipping.repository.WarehouseRepository;
 import com.sapo.shipping.service.IWarehouseService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,6 +37,21 @@ public class WarehouseService implements IWarehouseService {
         return warehouseRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Warehouse not found"));
     }
+
+    @Override
+    public Long countShippingOrdersByWarehouseId(Integer warehouseId){
+        return warehouseRepository.countShippingOrdersByWarehouseId(warehouseId);
+    };
+
+    @Override
+    public List<User> findAvailableShippersByWarehouseId(Integer warehouseId){
+        return warehouseRepository.findAvailableShippersByWarehouseId(warehouseId);
+    };
+
+    @Override
+    public Long countShippingOrdersBeingDelivered(Integer warehouseId){
+        return warehouseRepository.countShippingOrdersBeingDelivered(warehouseId);
+    };
 
     @Override
     public Warehouse create(WarehouseDto warehouseDto) {

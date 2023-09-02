@@ -23,11 +23,6 @@ public class ShippingOrder implements Serializable {
     @Column(name = "service_fee")
     private Double serviceFee;
 
-    @JsonIgnore
-    @JoinColumn(name = "warehouse_id")
-    @ManyToOne
-    private Warehouse warehouse;
-
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

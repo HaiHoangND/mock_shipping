@@ -29,6 +29,13 @@ public class UserController {
                 userService.getById(id));
     }
 
+    @GetMapping("/getFilterShippingOrders")
+    GeneralResponse<?> getFilterShippingOrders(@RequestParam(name = "shipperId") Integer shipperId, @RequestParam(name = "statusFilter") String statusFilter) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.getFilteredShippingOrders(shipperId,statusFilter));
+    }
+
     @PostMapping
     GeneralResponse<?> createUser(@RequestBody UserDto userDto) {
         return GeneralResponse.ok("success",

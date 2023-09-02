@@ -29,6 +29,24 @@ public class ShippingOrderController {
                 shippingOrderService.getById(id));
     }
 
+    @GetMapping("/getByCode")
+    GeneralResponse<?> getShippingOrderByOrderCode(@RequestParam(name = "orderCode") String orderCode) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.findByOrderCode(orderCode));
+    }
+
+    @GetMapping("/countShippingOrdersDelivering")
+    GeneralResponse<?> countShippingOrdersDelivering() {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.countShippingOrdersAreDelivering());
+    }
+
+    @GetMapping("/countSuccessfulShippingOrders")
+    GeneralResponse<?> countSuccessfulShippingOrders() {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.countSuccessfulDeliveredShippingOrders());
+    }
+
     @PostMapping
     GeneralResponse<?> createShippingOrder(@RequestBody ShippingOrderDto shippingOrderDto) {
         return GeneralResponse.ok("success",

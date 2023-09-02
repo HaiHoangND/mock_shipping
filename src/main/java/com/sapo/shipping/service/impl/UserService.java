@@ -1,6 +1,7 @@
 package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.UserDto;
+import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.UserMapper;
@@ -10,6 +11,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +33,11 @@ public class UserService implements IUserService {
     public Page<User> getAll(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return userRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public List<ShippingOrder> getFilteredShippingOrders(Integer shipperId,String statusFilter){
+        return userRepository.getFilteredShippingOrders(shipperId,statusFilter);
     }
 
     @Override

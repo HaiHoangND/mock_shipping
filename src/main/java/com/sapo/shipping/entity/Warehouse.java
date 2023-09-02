@@ -17,8 +17,8 @@ public class Warehouse implements Serializable {
     private String address;
 
 //    @JoinColumn(name = "shipping_order_id")
-    @OneToMany(mappedBy = "warehouse")
-    private List<ShippingOrder> shippingOrders;
+//    @OneToMany(mappedBy = "warehouse")
+//    private List<ShippingOrder> shippingOrders;
 
 
 }

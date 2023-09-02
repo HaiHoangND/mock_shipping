@@ -23,8 +23,6 @@ public class ShippingOrderDto implements Serializable {
     private String orderCode;
     private Double serviceFee;
 
-    private int warehouseId;
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

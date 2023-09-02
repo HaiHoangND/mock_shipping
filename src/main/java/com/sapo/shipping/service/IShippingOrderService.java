@@ -3,6 +3,9 @@ package com.sapo.shipping.service;
 import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface IShippingOrderService {
     Page<ShippingOrder> getAll(int pageNumber, int pageSize);
@@ -14,4 +17,11 @@ public interface IShippingOrderService {
     ShippingOrder update(int id, ShippingOrderDto shippingOrderDto);
 
     Boolean delete(int id);
+
+    ShippingOrder findByOrderCode(String orderCode);
+
+    Long countShippingOrdersAreDelivering();
+
+    Long countSuccessfulDeliveredShippingOrders();
+
 }
