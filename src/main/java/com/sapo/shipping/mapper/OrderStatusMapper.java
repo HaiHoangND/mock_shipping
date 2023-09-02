@@ -10,13 +10,13 @@ import org.mapstruct.MappingTarget;
 public interface OrderStatusMapper extends GenericMapper<OrderStatusDto, OrderStatus> {
     @Override
     @Mapping(source = "shippingOrder.id", target = "shippingOrderId")
-    @Mapping(source = "user.id", target = "shipperId")
+    @Mapping(source = "shipper.id", target = "shipperId")
     @Mapping(source = "orderRoute.id", target = "orderRouteId")
     OrderStatusDto toDto(OrderStatus entity);
 
     @Override
     @Mapping(source = "shippingOrderId", target = "shippingOrder.id")
-    @Mapping(source = "shipperId", target = "user.id")
+    @Mapping(source = "shipperId", target = "shipper.id")
     @Mapping(source = "orderRouteId", target = "orderRoute.id")
     OrderStatus createEntity(OrderStatusDto dto);
 

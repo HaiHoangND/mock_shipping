@@ -23,9 +23,9 @@ public class OrderStatus implements Serializable {
     @JoinColumn(name = "order_id")
     private ShippingOrder shippingOrder;
 
-    @OneToOne
     @JoinColumn(name = "shipper_id")
-    private User user;
+    @ManyToOne
+    private User shipper;
 
 
     @Column(name = "next_location")

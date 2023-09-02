@@ -4,6 +4,8 @@ package com.sapo.shipping.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table
@@ -26,4 +28,5 @@ public class User {
     private String profilePicture;
     @Column(name = "working_status")
     private boolean workingStatus;
+
 }
