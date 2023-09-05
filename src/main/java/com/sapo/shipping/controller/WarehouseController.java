@@ -30,7 +30,7 @@ public class WarehouseController {
     @GetMapping("/statistic")
     WarehouseStatsResponse<?> statistic(@RequestParam(name = "warehouseId") Integer warehouseId) {
         List<Object> data = new ArrayList<>();
-        Long shippingOrdersPerWarehouse = warehouseService.countShippingOrdersByWarehouseId(warehouseId);
+        int shippingOrdersPerWarehouse = warehouseService.getAllShippingOrdersByWarehouseId(warehouseId).size();
         Long shippingOrdersBeingDelivered = warehouseService.countShippingOrdersBeingDelivered(warehouseId);
         int availableShippersPerWarehouse = warehouseService.findAvailableShippersByWarehouseId(warehouseId).size();
 
@@ -48,6 +48,18 @@ public class WarehouseController {
     GeneralResponse<?> getAvailableShipperPerWarehouse(@RequestParam(name = "warehouseId") Integer warehouseId) {
         return GeneralResponse.ok("success",
                 "Successfully fetched", warehouseService.findAvailableShippersByWarehouseId(warehouseId));
+    }
+
+    @GetMapping("/getAllShippingOrders")
+    GeneralResponse<?> getAllShippingOrders(@RequestParam(name = "warehouseId") Integer warehouseId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", warehouseService.getAllShippingOrdersByWarehouseId(warehouseId));
+    }
+
+    @GetMapping("/getAllUsers")
+    GeneralResponse<?> getAllUsers(@RequestParam(name = "warehouseId") Integer warehouseId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", warehouseService.getAllUsersByWarehouseId(warehouseId));
     }
 
     @PostMapping

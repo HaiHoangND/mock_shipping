@@ -1,10 +1,11 @@
 package com.sapo.shipping.service;
 
 import com.sapo.shipping.dto.ShippingOrderDto;
+import com.sapo.shipping.dto.MonthProfit;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IShippingOrderService {
@@ -23,5 +24,9 @@ public interface IShippingOrderService {
     Long countShippingOrdersAreDelivering();
 
     Long countSuccessfulDeliveredShippingOrders();
+
+    Double getTotalRevenueForDay(LocalDateTime date);
+
+    List<MonthProfit> statisticRevenueOfYear(Integer year);
 
 }

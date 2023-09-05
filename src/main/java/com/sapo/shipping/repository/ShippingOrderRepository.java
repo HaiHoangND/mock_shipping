@@ -1,14 +1,19 @@
 package com.sapo.shipping.repository;
 
+import com.sapo.shipping.dto.MonthProfit;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Repository
 public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Integer> {
-    ShippingOrder findByOrderCode( String orderCode);
+    @Query("SELECT so FROM ShippingOrder so where so.orderCode = :orderCode")
+    ShippingOrder findByOrderCode(@Param("orderCode") String orderCode);
 
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
@@ -33,4 +38,32 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             ")"
     )
     Long countSuccessfulDeliveredShippingOrders();
+
+    @Query("SELECT SUM(so.serviceFee * 0.75) " +
+            "FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE os.id IN (" +
+            "    SELECT MAX(os2.id) " +
+            "    FROM OrderStatus os2 " +
+            "    GROUP BY os2.shippingOrder.id " +
+            ")" +
+            "AND os.status = 'Đã thanh toán cho chủ shop' " +
+            "AND DAY(so.updatedAt) = DAY(:date) " +
+            "AND MONTH (so.updatedAt) = MONTH (:date) " +
+            "AND YEAR (so.updatedAt) = YEAR (:date) "
+    )
+    Double getTotalRevenueForDay(@Param("date") LocalDateTime date);
+
+    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(MONTH(so.updatedAt), SUM(so.serviceFee * 0.75)) " +
+            "FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE os.id IN (" +
+            "    SELECT MAX(os2.id) " +
+            "    FROM OrderStatus os2 " +
+            "    GROUP BY os2.shippingOrder.id " +
+            ")" +
+            "AND os.status = 'Đã thanh toán cho chủ shop' " +
+            "AND YEAR(so.updatedAt) = :year " +
+            "GROUP BY MONTH(so.updatedAt)")
+    List<MonthProfit> statisticRevenueOfYear(@Param("year") Integer year);
 }

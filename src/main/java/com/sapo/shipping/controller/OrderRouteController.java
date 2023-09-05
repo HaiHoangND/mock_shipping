@@ -2,6 +2,7 @@ package com.sapo.shipping.controller;
 
 import com.sapo.shipping.dto.OrderRouteDto;
 import com.sapo.shipping.dto.ProductDto;
+import com.sapo.shipping.entity.OrderRoute;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.OrderRouteService;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,12 @@ public class OrderRouteController {
         return GeneralResponse.ok("success",
                 "Successfully created",
                 orderRouteService.create(orderRouteDto));
+    }
+
+    @GetMapping("/getRouteByOrderAndRoute")
+    GeneralResponse<?> getRouteByOrderAndRoute(@RequestParam(name = "orderId") Integer orderId, @RequestParam(name = "routeId") Integer routeId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", orderRouteService.getRouteByOrderIdAndRouteId(orderId,routeId));
     }
 
     @PutMapping("{id}")

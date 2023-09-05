@@ -1,6 +1,7 @@
 package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.WarehouseDto;
+import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
 import com.sapo.shipping.entity.Warehouse;
 import com.sapo.shipping.exception.BusinessException;
@@ -39,8 +40,13 @@ public class WarehouseService implements IWarehouseService {
     }
 
     @Override
-    public Long countShippingOrdersByWarehouseId(Integer warehouseId){
-        return warehouseRepository.countShippingOrdersByWarehouseId(warehouseId);
+    public List<ShippingOrder> getAllShippingOrdersByWarehouseId(Integer warehouseId){
+        return warehouseRepository.getAllShippingOrdersByWarehouseId(warehouseId);
+    };
+
+    @Override
+    public List<User> getAllUsersByWarehouseId(Integer warehouseId){
+        return warehouseRepository.getAllUsersByWarehouseId(warehouseId);
     };
 
     @Override

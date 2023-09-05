@@ -27,4 +27,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<ShippingOrder> getFilteredShippingOrders(@Param("shipperId") Integer shipperId, @Param("statusFilter") String statusFilter);
 
     Optional<User> findByEmail(String email);
+
 }

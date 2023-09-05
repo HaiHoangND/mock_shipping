@@ -32,6 +32,11 @@ public class OrderRouteService implements IOrderRouteService {
     public List<OrderRoute> getAll(){return orderRouteRepository.findAll();}
 
     @Override
+    public OrderRoute getRouteByOrderIdAndRouteId(Integer orderId, Integer routeId){
+        return orderRouteRepository.getRouteByOrderIdAndRouteId(orderId, routeId);
+    };
+
+    @Override
     public OrderRoute getById(int id){
         return orderRouteRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Order Route not found"));

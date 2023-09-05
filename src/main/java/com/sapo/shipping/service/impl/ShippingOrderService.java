@@ -1,6 +1,7 @@
 package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ShippingOrderDto;
+import com.sapo.shipping.dto.MonthProfit;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ShippingOrderMapper;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,11 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
+    public List<MonthProfit> statisticRevenueOfYear(Integer year){
+        return shippingOrderRepository.statisticRevenueOfYear(year);
+    };
+
+    @Override
     public Long countShippingOrdersAreDelivering(){
         return shippingOrderRepository.countShippingOrdersAreDelivering();
     };
@@ -52,6 +59,11 @@ public class ShippingOrderService implements IShippingOrderService {
     @Override
     public Long countSuccessfulDeliveredShippingOrders(){
         return shippingOrderRepository.countSuccessfulDeliveredShippingOrders();
+    };
+
+    @Override
+    public Double getTotalRevenueForDay(LocalDateTime date){
+        return shippingOrderRepository.getTotalRevenueForDay(date);
     };
 
     @Override

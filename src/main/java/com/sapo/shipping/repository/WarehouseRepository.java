@@ -1,5 +1,6 @@
 package com.sapo.shipping.repository;
 
+import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
 import com.sapo.shipping.entity.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,18 +16,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     @Query("SELECT wh FROM Warehouse wh WHERE wh.id >= 4")
     @Override
     List<Warehouse> findAll();
-
-    @Query("SELECT COUNT(so) " +
-            "FROM ShippingOrder so " +
-            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
-            "JOIN OrderRoute oro ON os.orderRoute.id = oro.id " +
-            "WHERE oro.warehouse.id = :warehouseId " +
-            "AND os.id IN (" +
-            "    SELECT MAX(os2.id) " +
-            "    FROM OrderStatus os2 " +
-            "    GROUP BY os2.shippingOrder.id" +
-            ")")
-    Long countShippingOrdersByWarehouseId(@Param("warehouseId") Integer warehouseId);
 
     @Query("SELECT u FROM User u " +
             "JOIN OrderStatus os ON u.id = os.shipper.id " +
@@ -46,6 +35,12 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     )
     List<User> findAvailableShippersByWarehouseId(@Param("warehouseId") Integer warehouseId);
 
+    @Query("SELECT u FROM User u " +
+            "WHERE u.warehouseId = :warehouseId " +
+            "AND u.workingStatus = true "
+    )
+    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId);
+
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
@@ -59,4 +54,16 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             ")"
     )
     Long countShippingOrdersBeingDelivered(@Param("warehouseId") Integer warehouseId);
+
+    @Query("SELECT so " +
+            "FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "JOIN OrderRoute oro ON os.orderRoute.id = oro.id " +
+            "WHERE oro.warehouse.id = :warehouseId " +
+            "AND os.id IN (" +
+            "    SELECT MAX(os2.id) " +
+            "    FROM OrderStatus os2 " +
+            "    GROUP BY os2.shippingOrder.id" +
+            ")")
+    List<ShippingOrder> getAllShippingOrdersByWarehouseId(@Param("warehouseId") Integer warehouseId);
 }
