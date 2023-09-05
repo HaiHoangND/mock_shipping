@@ -48,10 +48,12 @@ public class AuthService {
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
+                .id(user.getId())
                 .accessToken(jwtToken)
                 .userName(user.getFullName())
                 .profilePicture(user.getProfilePicture())
                 .role(user.getRole())
+                .warehouseId(user.getWarehouseId())
                 .build();
     }
 

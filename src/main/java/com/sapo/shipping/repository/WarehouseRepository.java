@@ -22,7 +22,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             "JOIN ShippingOrder so ON os.shippingOrder.id = so.id " +
             "WHERE u.warehouseId = :warehouseId " +
             "AND u.workingStatus = true " +
-            "AND u.role = 'shipper' " +
+            "AND u.role = 'SHIPPER' " +
             "AND NOT EXISTS (" +
             "    SELECT 1 FROM OrderStatus os2 " +
             "    WHERE os2.isArriving = true " +
