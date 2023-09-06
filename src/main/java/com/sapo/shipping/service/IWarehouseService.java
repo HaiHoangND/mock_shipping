@@ -21,8 +21,6 @@ public interface IWarehouseService {
 
     Warehouse update(int id, WarehouseDto warehouseDto);
 
-    List<User> findAvailableShippersByWarehouseId(Integer warehouseId);
-
     Long countShippingOrdersBeingDelivered(Integer warehouseId);
 
     List<ShippingOrder> getAllShippingOrdersByWarehouseId(Integer warehouseId);

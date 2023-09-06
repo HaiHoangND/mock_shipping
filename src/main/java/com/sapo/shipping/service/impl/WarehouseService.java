@@ -8,6 +8,7 @@ import com.sapo.shipping.entity.User;
 import com.sapo.shipping.entity.Warehouse;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.WarehouseMapper;
+import com.sapo.shipping.repository.UserRepository;
 import com.sapo.shipping.repository.WarehouseRepository;
 import com.sapo.shipping.service.IWarehouseService;
 import jakarta.transaction.Transactional;
@@ -23,11 +24,13 @@ public class WarehouseService implements IWarehouseService {
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper mapper;
     private final Validator validator;
+    private final UserRepository userRepository;
 
-    public WarehouseService(WarehouseRepository warehouseRepository, WarehouseMapper mapper, Validator validator) {
+    public WarehouseService(WarehouseRepository warehouseRepository, WarehouseMapper mapper, Validator validator,UserRepository userRepository) {
         this.warehouseRepository = warehouseRepository;
         this.mapper = mapper;
         this.validator = validator;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -52,25 +55,15 @@ public class WarehouseService implements IWarehouseService {
     };
 
     @Override
-    public List<User> findAvailableShippersByWarehouseId(Integer warehouseId){
-        return warehouseRepository.findAvailableShippersByWarehouseId(warehouseId);
-    };
-
-    @Override
     public List<UserWithStatus> getShippersWithStatus(Integer warehouseId){
-        List<User> availableShippers = warehouseRepository.findAvailableShippersByWarehouseId(warehouseId);
         List<User> allUsers = warehouseRepository.getAllUsersByWarehouseId(warehouseId, Role.SHIPPER);
 
         List<UserWithStatus> usersWithStatus = new ArrayList<>();
 
         for (User user : allUsers) {
             UserWithStatus userWithStatus = new UserWithStatus(user);
-
-            if (availableShippers.contains(user)) {
-                userWithStatus.setStatus("Đang rảnh");
-            } else {
-                userWithStatus.setStatus("Đang giao hàng");
-            }
+            Integer ordersInProgress = userRepository.getFilteredShippingOrders(user.getId(),"unSuccessful").size();
+            userWithStatus.setOrdersInProgress(ordersInProgress);
 
             usersWithStatus.add(userWithStatus);
         }

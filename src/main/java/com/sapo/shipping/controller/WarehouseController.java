@@ -33,22 +33,16 @@ public class WarehouseController {
         List<Object> data = new ArrayList<>();
         int shippingOrdersPerWarehouse = warehouseService.getAllShippingOrdersByWarehouseId(warehouseId).size();
         Long shippingOrdersBeingDelivered = warehouseService.countShippingOrdersBeingDelivered(warehouseId);
-        int availableShippersPerWarehouse = warehouseService.findAvailableShippersByWarehouseId(warehouseId).size();
+        int availableShippersPerWarehouse = warehouseService.getAllUsersByWarehouseId(warehouseId, Role.SHIPPER).size();
 
         Map<String, Object> statisticsMap = new HashMap<>();
         statisticsMap.put("ShippingOrders", shippingOrdersPerWarehouse);
         statisticsMap.put("Delivering", shippingOrdersBeingDelivered);
-        statisticsMap.put("AvailableShippers", availableShippersPerWarehouse);
+        statisticsMap.put("Shippers", availableShippersPerWarehouse);
 
         data.add(statisticsMap);
         return WarehouseStatsResponse.ok("success",
                 "Successfully fetched", data);
-    }
-
-    @GetMapping("/getAvailableShipperPerWarehouse")
-    GeneralResponse<?> getAvailableShipperPerWarehouse(@RequestParam(name = "warehouseId", required = false) Integer warehouseId) {
-        return GeneralResponse.ok("success",
-                "Successfully fetched", warehouseService.findAvailableShippersByWarehouseId(warehouseId));
     }
 
     @GetMapping("/getAllShippingOrders")
