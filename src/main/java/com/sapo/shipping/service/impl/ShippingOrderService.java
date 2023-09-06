@@ -31,7 +31,7 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public Page<ShippingOrder> getAll(int pageNumber, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return shippingOrderRepository.findAll(pageRequest);
     }
 
