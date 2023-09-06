@@ -1,5 +1,6 @@
 package com.sapo.shipping.service.impl;
 
+import com.sapo.shipping.dto.UserWithStatus;
 import com.sapo.shipping.dto.WarehouseDto;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
@@ -45,13 +46,35 @@ public class WarehouseService implements IWarehouseService {
     };
 
     @Override
-    public List<User> getAllUsersByWarehouseId(Integer warehouseId){
-        return warehouseRepository.getAllUsersByWarehouseId(warehouseId);
+    public List<User> getAllUsersByWarehouseId(Integer warehouseId, String role){
+        return warehouseRepository.getAllUsersByWarehouseId(warehouseId, role);
     };
 
     @Override
     public List<User> findAvailableShippersByWarehouseId(Integer warehouseId){
         return warehouseRepository.findAvailableShippersByWarehouseId(warehouseId);
+    };
+
+    @Override
+    public List<UserWithStatus> getShippersWithStatus(Integer warehouseId){
+        List<User> availableShippers = warehouseRepository.findAvailableShippersByWarehouseId(warehouseId);
+        List<User> allUsers = warehouseRepository.getAllUsersByWarehouseId(warehouseId, "SHIPPER");
+
+        List<UserWithStatus> usersWithStatus = new ArrayList<>();
+
+        for (User user : allUsers) {
+            UserWithStatus userWithStatus = new UserWithStatus(user);
+
+            if (availableShippers.contains(user)) {
+                userWithStatus.setStatus("Đang rảnh");
+            } else {
+                userWithStatus.setStatus("Đang lấy hàng");
+            }
+
+            usersWithStatus.add(userWithStatus);
+        }
+
+        return usersWithStatus;
     };
 
     @Override

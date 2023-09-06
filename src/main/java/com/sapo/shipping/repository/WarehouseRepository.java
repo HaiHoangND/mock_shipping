@@ -18,7 +18,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     List<Warehouse> findAll();
 
     @Query("SELECT u FROM User u " +
-            "WHERE u.warehouseId = :warehouseId " +
+            "WHERE (:warehouseId IS NULL OR u.warehouseId = :warehouseId) " +
             "AND u.workingStatus = true " +
             "AND u.role = 'SHIPPER' " +
             "AND NOT EXISTS (" +
@@ -34,10 +34,11 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     List<User> findAvailableShippersByWarehouseId(@Param("warehouseId") Integer warehouseId);
 
     @Query("SELECT u FROM User u " +
-            "WHERE u.warehouseId = :warehouseId " +
+            "WHERE (:warehouseId IS NULL OR u.warehouseId = :warehouseId) " +
+            "AND (:role IS NULL OR u.role = :role ) " +
             "AND u.workingStatus = true "
     )
-    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId);
+    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId, @Param("role") String role);
 
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
