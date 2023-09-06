@@ -18,28 +18,27 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     List<Warehouse> findAll();
 
     @Query("SELECT u FROM User u " +
-            "JOIN OrderStatus os ON u.id = os.shipper.id " +
-            "JOIN ShippingOrder so ON os.shippingOrder.id = so.id " +
-            "WHERE u.warehouseId = :warehouseId " +
+            "WHERE (:warehouseId IS NULL OR u.warehouseId = :warehouseId) " +
             "AND u.workingStatus = true " +
-            "AND u.role = 'shipper' " +
+            "AND u.role = 'SHIPPER' " +
             "AND NOT EXISTS (" +
             "    SELECT 1 FROM OrderStatus os2 " +
             "    WHERE os2.isArriving = true " +
+            "    AND os2.shipper.id = u.id " +
             "    AND os2.id IN ( " +
             "       SELECT MAX(os3.id) " +
             "       FROM OrderStatus os3 " +
-            "       WHERE os3.shipper.id = u.id " +
             "       GROUP BY os3.shippingOrder.id )" +
             ")"
     )
     List<User> findAvailableShippersByWarehouseId(@Param("warehouseId") Integer warehouseId);
 
     @Query("SELECT u FROM User u " +
-            "WHERE u.warehouseId = :warehouseId " +
+            "WHERE (:warehouseId IS NULL OR u.warehouseId = :warehouseId) " +
+            "AND (:role IS NULL OR u.role = :role ) " +
             "AND u.workingStatus = true "
     )
-    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId);
+    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId, @Param("role") String role);
 
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +

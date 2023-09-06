@@ -18,4 +18,6 @@ public class AuthenticationResponse {
     private String userName;
     private String profilePicture;
     private Role role;
+    private Integer warehouseId;
+    private Integer id;
 }

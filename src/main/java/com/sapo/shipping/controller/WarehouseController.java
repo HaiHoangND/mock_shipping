@@ -45,7 +45,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/getAvailableShipperPerWarehouse")
-    GeneralResponse<?> getAvailableShipperPerWarehouse(@RequestParam(name = "warehouseId") Integer warehouseId) {
+    GeneralResponse<?> getAvailableShipperPerWarehouse(@RequestParam(name = "warehouseId", required = false) Integer warehouseId) {
         return GeneralResponse.ok("success",
                 "Successfully fetched", warehouseService.findAvailableShippersByWarehouseId(warehouseId));
     }
@@ -56,10 +56,16 @@ public class WarehouseController {
                 "Successfully fetched", warehouseService.getAllShippingOrdersByWarehouseId(warehouseId));
     }
 
-    @GetMapping("/getAllUsers")
-    GeneralResponse<?> getAllUsers(@RequestParam(name = "warehouseId") Integer warehouseId) {
+    @GetMapping("/getShippersWithStatus")
+    GeneralResponse<?> getShippersWithStatus(@RequestParam(name = "warehouseId") Integer warehouseId) {
         return GeneralResponse.ok("success",
-                "Successfully fetched", warehouseService.getAllUsersByWarehouseId(warehouseId));
+                "Successfully fetched", warehouseService.getShippersWithStatus(warehouseId));
+    }
+
+    @GetMapping("/getAllUsers")
+    GeneralResponse<?> getAllUsers(@RequestParam(name = "warehouseId", required = false) Integer warehouseId, @RequestParam(name = "role", required = false) String role) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", warehouseService.getAllUsersByWarehouseId(warehouseId, role));
     }
 
     @PostMapping
@@ -70,21 +76,21 @@ public class WarehouseController {
     }
 
     @GetMapping("{id}")
-    GeneralResponse<?> getWarehouseById(@PathVariable int id){
+    GeneralResponse<?> getWarehouseById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
                 warehouseService.getById(id));
     }
 
     @DeleteMapping("{id}")
-    GeneralResponse<?> deleteWarehouseById(@PathVariable int id){
+    GeneralResponse<?> deleteWarehouseById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully deleted",
                 warehouseService.delete(id));
     }
 
     @PutMapping("{id}")
-    GeneralResponse<?> updateWarehouseById(@PathVariable int id, @RequestBody WarehouseDto warehouseDto){
+    GeneralResponse<?> updateWarehouseById(@PathVariable int id, @RequestBody WarehouseDto warehouseDto) {
         return GeneralResponse.ok("success",
                 "Successfully updated",
                 warehouseService.update(id, warehouseDto));

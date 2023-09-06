@@ -1,5 +1,6 @@
 package com.sapo.shipping.service;
 
+import com.sapo.shipping.dto.UserWithStatus;
 import com.sapo.shipping.dto.WarehouseDto;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
@@ -25,5 +26,7 @@ public interface IWarehouseService {
 
     List<ShippingOrder> getAllShippingOrdersByWarehouseId(Integer warehouseId);
 
-    List<User> getAllUsersByWarehouseId(Integer warehouseId);
+    List<User> getAllUsersByWarehouseId(Integer warehouseId, String role);
+
+    List<UserWithStatus> getShippersWithStatus(Integer warehouseId);
 }
