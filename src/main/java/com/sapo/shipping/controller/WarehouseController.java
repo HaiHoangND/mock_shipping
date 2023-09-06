@@ -1,5 +1,6 @@
 package com.sapo.shipping.controller;
 
+import com.sapo.shipping.auth.permission.Role;
 import com.sapo.shipping.dto.WarehouseDto;
 import com.sapo.shipping.entity.Warehouse;
 import com.sapo.shipping.response.GeneralResponse;
@@ -63,7 +64,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/getAllUsers")
-    GeneralResponse<?> getAllUsers(@RequestParam(name = "warehouseId", required = false) Integer warehouseId, @RequestParam(name = "role", required = false) String role) {
+    GeneralResponse<?> getAllUsers(@RequestParam(name = "warehouseId", required = false) Integer warehouseId, @RequestParam(name = "role", required = false) Role role) {
         return GeneralResponse.ok("success",
                 "Successfully fetched", warehouseService.getAllUsersByWarehouseId(warehouseId, role));
     }

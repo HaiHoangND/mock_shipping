@@ -1,5 +1,6 @@
 package com.sapo.shipping.service.impl;
 
+import com.sapo.shipping.auth.permission.Role;
 import com.sapo.shipping.dto.UserWithStatus;
 import com.sapo.shipping.dto.WarehouseDto;
 import com.sapo.shipping.entity.ShippingOrder;
@@ -46,7 +47,7 @@ public class WarehouseService implements IWarehouseService {
     };
 
     @Override
-    public List<User> getAllUsersByWarehouseId(Integer warehouseId, String role){
+    public List<User> getAllUsersByWarehouseId(Integer warehouseId, Role role){
         return warehouseRepository.getAllUsersByWarehouseId(warehouseId, role);
     };
 
@@ -58,7 +59,7 @@ public class WarehouseService implements IWarehouseService {
     @Override
     public List<UserWithStatus> getShippersWithStatus(Integer warehouseId){
         List<User> availableShippers = warehouseRepository.findAvailableShippersByWarehouseId(warehouseId);
-        List<User> allUsers = warehouseRepository.getAllUsersByWarehouseId(warehouseId, "SHIPPER");
+        List<User> allUsers = warehouseRepository.getAllUsersByWarehouseId(warehouseId, Role.SHIPPER);
 
         List<UserWithStatus> usersWithStatus = new ArrayList<>();
 
