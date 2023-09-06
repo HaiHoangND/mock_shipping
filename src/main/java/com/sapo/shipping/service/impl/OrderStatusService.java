@@ -33,6 +33,7 @@ public class OrderStatusService implements IOrderStatusService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public OrderStatus create(OrderStatusDto orderStatusDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(orderStatusDto)

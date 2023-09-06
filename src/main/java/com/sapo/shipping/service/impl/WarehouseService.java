@@ -69,7 +69,7 @@ public class WarehouseService implements IWarehouseService {
             if (availableShippers.contains(user)) {
                 userWithStatus.setStatus("Đang rảnh");
             } else {
-                userWithStatus.setStatus("Đang lấy hàng");
+                userWithStatus.setStatus("Đang giao hàng");
             }
 
             usersWithStatus.add(userWithStatus);
