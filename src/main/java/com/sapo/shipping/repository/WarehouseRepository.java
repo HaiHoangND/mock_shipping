@@ -1,5 +1,6 @@
 package com.sapo.shipping.repository;
 
+import com.sapo.shipping.auth.permission.Role;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
 import com.sapo.shipping.entity.Warehouse;
@@ -38,7 +39,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             "AND (:role IS NULL OR u.role = :role ) " +
             "AND u.workingStatus = true "
     )
-    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId, @Param("role") String role);
+    List<User> getAllUsersByWarehouseId(@Param("warehouseId") Integer warehouseId, @Param("role") Role role);
 
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
