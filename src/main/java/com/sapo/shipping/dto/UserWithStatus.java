@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class UserWithStatus {
     private User user;
-    private String status;
+    private Integer ordersInProgress;
     public UserWithStatus(User user) {
         this.user = user;
     }

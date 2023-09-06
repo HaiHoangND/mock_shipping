@@ -20,22 +20,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
 
     @Query("SELECT u FROM User u " +
             "WHERE (:warehouseId IS NULL OR u.warehouseId = :warehouseId) " +
-            "AND u.workingStatus = true " +
-            "AND u.role = 'SHIPPER' " +
-            "AND NOT EXISTS (" +
-            "    SELECT 1 FROM OrderStatus os2 " +
-            "    WHERE os2.isArriving = true " +
-            "    AND os2.shipper.id = u.id " +
-            "    AND os2.id IN ( " +
-            "       SELECT MAX(os3.id) " +
-            "       FROM OrderStatus os3 " +
-            "       GROUP BY os3.shippingOrder.id )" +
-            ")"
-    )
-    List<User> findAvailableShippersByWarehouseId(@Param("warehouseId") Integer warehouseId);
-
-    @Query("SELECT u FROM User u " +
-            "WHERE (:warehouseId IS NULL OR u.warehouseId = :warehouseId) " +
             "AND (:role IS NULL OR u.role = :role ) " +
             "AND u.workingStatus = true "
     )
