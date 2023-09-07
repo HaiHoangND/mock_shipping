@@ -40,9 +40,8 @@ public class ShippingOrderController {
 
     @GetMapping("/getTotalRevenueForDay")
     GeneralResponse<?> getTotalRevenueForDay(@RequestParam(name = "day") Integer day, @RequestParam(name = "month") Integer month,@RequestParam(name = "year") Integer year) {
-        LocalDate date = LocalDate.of(year, month, day);
         return GeneralResponse.ok("success",
-                "Successfully fetched", shippingOrderService.getTotalRevenueForDay(date));
+                "Successfully fetched", shippingOrderService.getTotalRevenueForDay(day, month, year));
     }
 
     @GetMapping("/countShippingOrdersDelivering")

@@ -63,8 +63,8 @@ public class ShippingOrderService implements IShippingOrderService {
     };
 
     @Override
-    public Double getTotalRevenueForDay(LocalDate date){
-        return shippingOrderRepository.getTotalRevenueForDay(date);
+    public Double getTotalRevenueForDay(Integer day, Integer month, Integer year){
+        return shippingOrderRepository.getTotalRevenueForDay(day, month, year);
     };
 
     @Override

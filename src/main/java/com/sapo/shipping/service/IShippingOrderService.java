@@ -4,6 +4,7 @@ import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.dto.MonthProfit;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ public interface IShippingOrderService {
 
     Long countSuccessfulDeliveredShippingOrders();
 
-    Double getTotalRevenueForDay(LocalDate date);
+    Double getTotalRevenueForDay(Integer day, Integer month, Integer year);
 
     List<MonthProfit> statisticRevenueOfYear(Integer year);
 
