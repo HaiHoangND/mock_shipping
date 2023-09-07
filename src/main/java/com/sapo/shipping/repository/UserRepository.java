@@ -33,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "AND ( " +
             "    CASE :statusFilter " +
             "       WHEN 'successful' THEN ( " +
-            "           EXISTS (SELECT 2 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng') OR EXISTS (SELECT 1 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Giao hàng thành công')" +
+            "           (SELECT COUNT(os2)  FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng') = 2 OR EXISTS (SELECT 1 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Giao hàng thành công')" +
             "       ) " +
             "       WHEN 'unSuccessful' THEN " +
             "            ( " +
@@ -44,7 +44,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "                )) " +
             "                OR " +
             "                ( " +
-            "                    NOT EXISTS (SELECT 2 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng')" +
+            "                    (SELECT COUNT(os2) FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng') = 1" +
             "                ) " +
             "           ) " +
             "    END " +
