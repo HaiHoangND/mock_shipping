@@ -1,11 +1,15 @@
 package com.sapo.shipping.service.impl;
 
+import com.sapo.shipping.auth.permission.Role;
 import com.sapo.shipping.dto.UserDto;
+import com.sapo.shipping.dto.WarehousesStatistic;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
+import com.sapo.shipping.entity.Warehouse;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.UserMapper;
 import com.sapo.shipping.repository.UserRepository;
+import com.sapo.shipping.repository.WarehouseRepository;
 import com.sapo.shipping.service.IUserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
@@ -23,10 +27,13 @@ public class UserService implements IUserService {
     private final Validator validator;
     private final UserMapper mapper;
 
-    public UserService(UserRepository userRepository, Validator validator, UserMapper mapper) {
+    private final WarehouseRepository warehouseRepository;
+
+    public UserService(WarehouseRepository warehouseRepository, UserRepository userRepository, Validator validator, UserMapper mapper) {
         this.userRepository = userRepository;
         this.validator = validator;
         this.mapper = mapper;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
@@ -39,6 +46,23 @@ public class UserService implements IUserService {
     public List<ShippingOrder> getFilteredShippingOrders(Integer shipperId,String statusFilter){
         return userRepository.getFilteredShippingOrders(shipperId,statusFilter);
     }
+
+    @Override
+    public List<WarehousesStatistic> statisticAllWarehouses(){
+        List<Warehouse> warehouses = warehouseRepository.findAll();
+        List<WarehousesStatistic> warehousesStatistics = new ArrayList<>();
+        for(Warehouse warehouse: warehouses){
+            WarehousesStatistic warehousesStatistic = new WarehousesStatistic(warehouse);
+            Long delivering = warehouseRepository.countShippingOrdersBeingDelivered(warehouse.getId());
+            int shippers = warehouseRepository.getAllUsersByWarehouseId(warehouse.getId(), Role.SHIPPER).size();
+            int shippingOrders = warehouseRepository.getAllShippingOrdersByWarehouseId(warehouse.getId()).size();
+            warehousesStatistic.setDelivering(delivering);
+            warehousesStatistic.setShippers(shippers);
+            warehousesStatistic.setShippingOrders(shippingOrders);
+            warehousesStatistics.add(warehousesStatistic);
+        }
+        return warehousesStatistics;
+    };
 
     @Override
     public User getById(int id) {

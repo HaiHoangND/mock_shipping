@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "AND MONTH (so.updatedAt) = MONTH (:date) " +
             "AND YEAR (so.updatedAt) = YEAR (:date) "
     )
-    Double getTotalRevenueForDay(@Param("date") LocalDateTime date);
+    Double getTotalRevenueForDay(@Param("date") LocalDate date);
 
     @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(MONTH(so.updatedAt), SUM(so.serviceFee * 0.75)) " +
             "FROM ShippingOrder so " +
