@@ -31,7 +31,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
-            "WHERE ( os.status = 'Giao hàng thành công' OR os.status = 'Quản lý đã nhận tiền' OR os.status = 'Đã thanh toán cho chủ shop' ) " +
+            "WHERE ( os.status = 'Giao hàng thành công' OR os.status = 'Quản lý đã nhận tiền' OR os.status = 'Đã đưa tiền cho chủ shop' ) " +
             "AND os.id IN (" +
             "    SELECT MAX(os2.id) " +
             "    FROM OrderStatus os2 " +
@@ -48,7 +48,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "    FROM OrderStatus os2 " +
             "    GROUP BY os2.shippingOrder.id " +
             ")" +
-            "AND os.status = 'Đã thanh toán cho chủ shop' " +
+            "AND os.status = 'Đã đưa tiền cho chủ shop' " +
             "AND DAY(so.updatedAt) = :day " +
             "AND MONTH(so.updatedAt) = :month " +
             "AND YEAR(so.updatedAt) = :year " +
@@ -64,7 +64,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "    FROM OrderStatus os2 " +
             "    GROUP BY os2.shippingOrder.id " +
             ")" +
-            "AND os.status = 'Đã thanh toán cho chủ shop' " +
+            "AND os.status = 'Đã đưa tiền cho chủ shop' " +
             "AND YEAR(so.updatedAt) = :year " +
             "GROUP BY MONTH(so.updatedAt)")
     List<MonthProfit> statisticRevenueOfYear(@Param("year") Integer year);
