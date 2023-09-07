@@ -40,7 +40,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     )
     Long countSuccessfulDeliveredShippingOrders();
 
-    @Query("SELECT SUM(so.serviceFee * 0.75) " +
+    @Query("SELECT SUM(so.serviceFee) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
             "WHERE os.id IN (" +
@@ -56,7 +56,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     )
     Double getTotalRevenueForDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
 
-    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(MONTH(so.updatedAt), SUM(so.serviceFee * 0.75)) " +
+    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(MONTH(so.updatedAt), SUM(so.serviceFee)) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
             "WHERE os.id IN (" +
