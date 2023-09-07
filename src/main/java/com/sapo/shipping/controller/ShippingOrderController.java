@@ -5,6 +5,7 @@ import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.ShippingOrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -38,9 +39,9 @@ public class ShippingOrderController {
     }
 
     @GetMapping("/getTotalRevenueForDay")
-    GeneralResponse<?> getTotalRevenueForDay(@RequestParam(name = "date") LocalDateTime date) {
+    GeneralResponse<?> getTotalRevenueForDay(@RequestParam(name = "day") Integer day, @RequestParam(name = "month") Integer month,@RequestParam(name = "year") Integer year) {
         return GeneralResponse.ok("success",
-                "Successfully fetched", shippingOrderService.getTotalRevenueForDay(date));
+                "Successfully fetched", shippingOrderService.getTotalRevenueForDay(day, month, year));
     }
 
     @GetMapping("/countShippingOrdersDelivering")

@@ -1,6 +1,7 @@
 package com.sapo.shipping.service;
 
 import com.sapo.shipping.dto.UserDto;
+import com.sapo.shipping.dto.WarehousesStatistic;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,6 @@ public interface IUserService {
     Boolean delete(int id);
 
     List<ShippingOrder> getFilteredShippingOrders(Integer shipperId,String statusFilter);
+
+    List<WarehousesStatistic> statisticAllWarehouses();
 }

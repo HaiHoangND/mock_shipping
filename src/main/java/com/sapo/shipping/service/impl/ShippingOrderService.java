@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +63,8 @@ public class ShippingOrderService implements IShippingOrderService {
     };
 
     @Override
-    public Double getTotalRevenueForDay(LocalDateTime date){
-        return shippingOrderRepository.getTotalRevenueForDay(date);
+    public Double getTotalRevenueForDay(Integer day, Integer month, Integer year){
+        return shippingOrderRepository.getTotalRevenueForDay(day, month, year);
     };
 
     @Override
