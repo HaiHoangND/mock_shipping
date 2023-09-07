@@ -32,9 +32,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "WHERE os.shipper.id = :shipperId " +
             "AND ( " +
             "    CASE :statusFilter " +
-            "        WHEN 'successful' THEN " +
-            "            EXISTS (SELECT 1 FROM OrderStatus os2 WHERE os2.shippingOrder.id = so.id AND os2.id > os.id) " +
-            "        WHEN 'unSuccessful' THEN " +
+            "       WHEN 'successful' THEN ( " +
+            "           EXISTS (SELECT 2 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng') OR EXISTS (SELECT 1 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Giao hàng thành công')" +
+            "       ) " +
+            "       WHEN 'unSuccessful' THEN " +
             "            ( " +
             "                (os.status IN ('Đang lấy hàng', 'Lấy hàng thành công') AND os.id IN (" +
             "                    SELECT MAX(os2.id) " +
@@ -43,16 +44,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "                )) " +
             "                OR " +
             "                ( " +
-            "                    os.status <> 'Đang lấy hàng' " +
-            "                    AND os.status <> 'Lấy hàng thành công' " +
-            "                    AND os.orderRoute.warehouse.id = os.shipper.warehouseId " +
-            "                    AND os.id IN (" +
-            "                        SELECT MAX(os2.id) " +
-            "                        FROM OrderStatus os2 " +
-            "                        GROUP BY os2.shippingOrder.id" +
-            "                    )" +
-            "                )" +
-            ") " +
+            "                    NOT EXISTS (SELECT 2 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng')" +
+            "                ) " +
+            "           ) " +
             "    END " +
             ")")
     List<ShippingOrder> getFilteredShippingOrders(@Param("shipperId") Integer shipperId, @Param("statusFilter") String statusFilter);
