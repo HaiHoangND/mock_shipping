@@ -36,6 +36,13 @@ public class UserController {
                 userService.getFilteredShippingOrders(shipperId,statusFilter));
     }
 
+    @GetMapping("/statisticAllWarehouses")
+    GeneralResponse<?> statisticAllWarehouses() {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.statisticAllWarehouses());
+    }
+
     @PostMapping
     GeneralResponse<?> createUser(@RequestBody UserDto userDto) {
         return GeneralResponse.ok("success",
