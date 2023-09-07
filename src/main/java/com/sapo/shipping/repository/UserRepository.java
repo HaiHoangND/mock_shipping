@@ -52,6 +52,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "                        GROUP BY os2.shippingOrder.id" +
             "                    )" +
             "                )" +
+            ") " +
             "    END " +
             ")")
     List<ShippingOrder> getFilteredShippingOrders(@Param("shipperId") Integer shipperId, @Param("statusFilter") String statusFilter);
