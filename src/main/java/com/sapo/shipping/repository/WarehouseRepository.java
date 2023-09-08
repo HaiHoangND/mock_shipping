@@ -51,7 +51,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             "((SELECT oro3.warehouse.id FROM OrderRoute oro3 WHERE " +
             "oro3.shippingOrder.id = os.shippingOrder.id " +
             "ORDER BY oro3.routeId DESC LIMIT 1 OFFSET 1) = :warehouseId AND " +
-            "((os.status IN ('Giao hàng thành công', 'Đơn hủy')) OR (os.status = 'Đang giao hàng' AND os.orderRoute.warehouse.id = 3))) " +
+            "((os.status IN ('Giao hàng thành công', 'Đơn hủy')) OR (os.status = 'Đang giao hàng' AND os.orderRoute.warehouse.id = 3)))) " +
             "AND os.id IN (" +
             "SELECT MAX(os2.id) " +
             "FROM OrderStatus os2 " +
