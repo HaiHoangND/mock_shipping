@@ -58,4 +58,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             "GROUP BY os2.shippingOrder.id" +
             ")")
     List<ShippingOrder> getAllShippingOrdersByWarehouseId(@Param("warehouseId") Integer warehouseId);
+
+    @Query("SELECT so FROM ShippingOrder so WHERE NOT EXISTS (SELECT 1 FROM OrderStatus os WHERE os.shippingOrder.id = so.id)")
+    List<ShippingOrder> getAllShippingOrdersNoStatus();
 }

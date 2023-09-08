@@ -46,7 +46,9 @@ public class WarehouseService implements IWarehouseService {
 
     @Override
     public List<ShippingOrder> getAllShippingOrdersByWarehouseId(Integer warehouseId){
-        return warehouseRepository.getAllShippingOrdersByWarehouseId(warehouseId);
+        List<ShippingOrder> shippingOrders = warehouseRepository.getAllShippingOrdersNoStatus();
+        shippingOrders.addAll(warehouseRepository.getAllShippingOrdersByWarehouseId(warehouseId));
+        return shippingOrders;
     };
 
     @Override
