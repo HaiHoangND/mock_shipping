@@ -45,6 +45,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "                OR " +
             "                ( " +
             "                    (SELECT COUNT(os2) FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status = 'Đang giao hàng') IN (1,3)" +
+            "                     AND NOT EXISTS (SELECT 1 FROM OrderStatus os2 WHERE os2.shipper.id = :shipperId AND os2.shippingOrder.id = os.shippingOrder.id AND os2.status IN ('Giao hàng thành công','Đơn hàng bị hủy') )" +
             "                ) " +
             "           ) " +
             "    END " +
