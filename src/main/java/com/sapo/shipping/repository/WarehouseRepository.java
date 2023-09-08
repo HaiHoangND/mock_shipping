@@ -43,11 +43,19 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
             "JOIN OrderRoute oro ON os.orderRoute.id = oro.id " +
-            "WHERE oro.warehouse.id = :warehouseId " +
+            "WHERE (oro.warehouse.id = :warehouseId OR " +
+            "(os.orderRoute.warehouse.id = 2 AND " +
+            "os.status IN ('Lấy hàng thành công', 'Đang giao hàng') AND " +
+            "(SELECT oro2.warehouse.id FROM OrderRoute oro2 WHERE " +
+            "oro2.routeId = 2 AND oro2.shippingOrder.id = so.id) = :warehouseId) OR " +
+            "((SELECT oro3.warehouse.id FROM OrderRoute oro3 WHERE " +
+            "oro3.shippingOrder.id = os.shippingOrder.id " +
+            "ORDER BY oro3.routeId DESC LIMIT 1 OFFSET 1) = :warehouseId AND " +
+            "os.status IN ('Giao hàng thành công', 'Đơn hủy'))) " +
             "AND os.id IN (" +
-            "    SELECT MAX(os2.id) " +
-            "    FROM OrderStatus os2 " +
-            "    GROUP BY os2.shippingOrder.id" +
+            "SELECT MAX(os2.id) " +
+            "FROM OrderStatus os2 " +
+            "GROUP BY os2.shippingOrder.id" +
             ")")
     List<ShippingOrder> getAllShippingOrdersByWarehouseId(@Param("warehouseId") Integer warehouseId);
 }
