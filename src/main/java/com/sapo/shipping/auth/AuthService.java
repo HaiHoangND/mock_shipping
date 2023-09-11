@@ -27,7 +27,6 @@ public class AuthService {
                 .address(request.getAddress())
                 .phone(request.getPhone())
                 .gender(request.getGender())
-                .warehouseId(request.getWarehouseID())
                 .workingStatus(true)
                 .build();
         var savedUser = repository.save(user);
@@ -53,7 +52,6 @@ public class AuthService {
                 .userName(user.getFullName())
                 .profilePicture(user.getProfilePicture())
                 .role(user.getRole())
-                .warehouseId(user.getWarehouseId())
                 .build();
     }
 

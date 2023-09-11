@@ -1,5 +1,6 @@
 package com.sapo.shipping.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,5 +17,10 @@ public class Receiver {
     private String name;
     private String address;
     private String phone;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "shopOwner_id")
+    private User shopOwner;
 
 }

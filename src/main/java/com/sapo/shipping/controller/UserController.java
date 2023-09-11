@@ -36,11 +36,11 @@ public class UserController {
                 userService.getFilteredShippingOrders(shipperId,statusFilter));
     }
 
-    @GetMapping("/statisticAllWarehouses")
-    GeneralResponse<?> statisticAllWarehouses() {
+    @GetMapping("/getShippersWithStatus")
+    GeneralResponse<?> getShippersWithStatus() {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
-                userService.statisticAllWarehouses());
+                userService.getShippersWithStatus());
     }
 
     @PostMapping

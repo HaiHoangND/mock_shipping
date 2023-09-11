@@ -37,8 +37,8 @@ public class ShippingOrder implements Serializable {
 
 
     @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private Sender sender;
+    @JoinColumn(name = "shopOwner_id")
+    private User shopOwner;
 
     @OneToMany(mappedBy = "shippingOrder")
     private List<OrderRoute> orderRoutes;

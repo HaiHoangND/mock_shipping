@@ -14,4 +14,5 @@ public class ReceiverDto {
     private String name;
     private String address;
     private String phone;
+    private int shopOwnerId;
 }

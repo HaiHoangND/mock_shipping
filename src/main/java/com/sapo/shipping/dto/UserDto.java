@@ -1,6 +1,9 @@
 package com.sapo.shipping.dto;
 
+import com.sapo.shipping.entity.Receiver;
 import lombok.*;
+
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -12,10 +15,10 @@ public class UserDto {
     private String email;
     private String fullName;
     private String role;
-    private int warehouseId;
     private String address;
     private String phone;
     private String gender;
     private String profilePicture;
     private boolean workingStatus;
+    private List<Receiver> receivers;
 }

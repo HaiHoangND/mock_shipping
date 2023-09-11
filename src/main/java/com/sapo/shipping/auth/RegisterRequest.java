@@ -18,7 +18,6 @@ public class RegisterRequest {
     private String address;
     private String gender;
     private String phone;
-    private Integer warehouseID;
     private boolean workingStatus;
 
 }

@@ -29,7 +29,7 @@ public class ShippingOrderDto implements Serializable {
 
     private int receiverId;
 
-    private int senderId;
+    private int shopOwnerId;
 
     private List<OrderRoute> orderRoutes;
 

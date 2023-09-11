@@ -24,7 +24,4 @@ public class OrderRoute implements Serializable {
     @ManyToOne
     private ShippingOrder shippingOrder;
 
-    @JoinColumn(name = "warehouse_id")
-    @ManyToOne
-    private Warehouse warehouse;
 }

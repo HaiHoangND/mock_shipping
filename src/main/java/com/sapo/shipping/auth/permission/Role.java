@@ -15,7 +15,7 @@ import static com.sapo.shipping.auth.permission.Permission.*;
 
 @RequiredArgsConstructor
 public enum Role {
-    ADMIN, COORDINATOR, SHIPPER
+    ADMIN, COORDINATOR, SHIPPER, SHOP
 //    USER(Collections.emptySet()),
 //    ADMIN(
 //            Set.of(
