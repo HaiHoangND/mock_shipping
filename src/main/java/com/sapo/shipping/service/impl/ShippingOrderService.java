@@ -6,6 +6,7 @@ import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ShippingOrderMapper;
 import com.sapo.shipping.repository.ShippingOrderRepository;
+import com.sapo.shipping.repository.UserRepository;
 import com.sapo.shipping.service.IShippingOrderService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ShippingOrderService implements IShippingOrderService {
@@ -24,10 +27,13 @@ public class ShippingOrderService implements IShippingOrderService {
     private final Validator validator;
     private final ShippingOrderMapper mapper;
 
-    public ShippingOrderService(ShippingOrderRepository shippingOrderRepository, Validator validator, ShippingOrderMapper mapper) {
+    private final UserRepository userRepository;
+
+    public ShippingOrderService(UserRepository userRepository, ShippingOrderRepository shippingOrderRepository, Validator validator, ShippingOrderMapper mapper) {
         this.shippingOrderRepository = shippingOrderRepository;
         this.validator = validator;
         this.mapper = mapper;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -41,6 +47,11 @@ public class ShippingOrderService implements IShippingOrderService {
         return shippingOrderRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Order not found"));
     }
+
+    @Override
+    public List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId){
+        return shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId);
+    };
 
     @Override
     public ShippingOrder findByOrderCode(String orderCode) {
@@ -65,6 +76,20 @@ public class ShippingOrderService implements IShippingOrderService {
     @Override
     public Double getTotalRevenueForDay(Integer day, Integer month, Integer year){
         return shippingOrderRepository.getTotalRevenueForDay(day, month, year);
+    };
+
+    @Override
+    public List<Object> coordinatorStatistic(){
+        List<Object> data = new ArrayList<>();
+        int shippingOrders = shippingOrderRepository.findAll().size();
+        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering();
+        int availableShippers = userRepository.getAllShippers().size();
+        Map<String, Object> statisticsMap = new HashMap<>();
+        statisticsMap.put("ShippingOrders", shippingOrders);
+        statisticsMap.put("Delivering", deliveringShippingOrders);
+        statisticsMap.put("Shippers", availableShippers);
+        data.add(statisticsMap);
+        return data;
     };
 
     @Override

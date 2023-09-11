@@ -33,9 +33,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    @Column(name = "warehouse_id")
-    private int warehouseId;
     private String address;
     private String phone;
     private String gender;
@@ -43,6 +40,9 @@ public class User implements UserDetails {
     private String profilePicture;
     @Column(name = "working_status")
     private boolean workingStatus;
+
+    @OneToMany(mappedBy = "shopOwner")
+    private List<Receiver> receiverList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

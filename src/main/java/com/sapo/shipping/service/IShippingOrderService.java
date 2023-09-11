@@ -31,4 +31,8 @@ public interface IShippingOrderService {
 
     List<MonthProfit> statisticRevenueOfYear(Integer year);
 
+    List<Object> coordinatorStatistic();
+
+    List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId);
+
 }

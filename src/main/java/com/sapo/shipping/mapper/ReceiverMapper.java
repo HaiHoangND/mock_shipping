@@ -9,10 +9,16 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 
 public interface ReceiverMapper extends GenericMapper<ReceiverDto, Receiver>{
+    @Override
+    @Mapping(source = "shopOwner.id", target = "shopOwnerId")
     ReceiverDto toDto(Receiver entity);
 
+    @Override
+    @Mapping(source = "shopOwnerId", target = "shopOwner.id")
     Receiver createEntity(ReceiverDto dto);
 
+    @Override
+    @Mapping(source = "shopOwnerId", target = "shopOwner.id")
     @Mapping(target = "id", ignore = true)
     void updateEntity(@MappingTarget Receiver entity, ReceiverDto dto);
 }

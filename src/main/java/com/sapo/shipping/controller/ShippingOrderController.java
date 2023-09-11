@@ -38,6 +38,18 @@ public class ShippingOrderController {
                 "Successfully fetched", shippingOrderService.findByOrderCode(orderCode));
     }
 
+    @GetMapping("/getByShopOwnerId")
+    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId));
+    }
+
+    @GetMapping("/coordinatorStatistic")
+    GeneralResponse<?> coordinatorStatistic() {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.coordinatorStatistic());
+    }
+
     @GetMapping("/getTotalRevenueForDay")
     GeneralResponse<?> getTotalRevenueForDay(@RequestParam(name = "day") Integer day, @RequestParam(name = "month") Integer month,@RequestParam(name = "year") Integer year) {
         return GeneralResponse.ok("success",

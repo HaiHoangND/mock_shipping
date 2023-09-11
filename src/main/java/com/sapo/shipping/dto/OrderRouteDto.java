@@ -14,5 +14,4 @@ public class OrderRouteDto {
     @NotBlank(message = "Address must not be empty")
     private String address;
     private int shippingOrderId;
-    private int warehouseId;
 }

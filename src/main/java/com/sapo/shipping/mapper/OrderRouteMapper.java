@@ -10,17 +10,14 @@ import org.mapstruct.MappingTarget;
 public interface OrderRouteMapper extends GenericMapper<OrderRouteDto, OrderRoute>{
     @Override
     @Mapping(source = "shippingOrder.id", target = "shippingOrderId")
-    @Mapping(source = "warehouse.id", target = "warehouseId")
     OrderRouteDto toDto(OrderRoute entity);
 
     @Override
     @Mapping(source = "shippingOrderId", target = "shippingOrder.id")
-    @Mapping(source = "warehouseId", target = "warehouse.id")
     OrderRoute createEntity(OrderRouteDto dto);
 
     @Override
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "shippingOrderId", target = "shippingOrder.id")
-    @Mapping(source = "warehouseId", target = "warehouse.id")
     void updateEntity(@MappingTarget OrderRoute entity, OrderRouteDto dto);
 }

@@ -17,8 +17,6 @@ public class OrderStatusDto implements Serializable {
 
     private int shipperId;
 
-    private String nextLocation;
-
     private int orderRouteId;
 
     private String status;
