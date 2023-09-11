@@ -2,6 +2,7 @@ package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.dto.MonthProfit;
+import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ShippingOrderMapper;
@@ -51,6 +52,19 @@ public class ShippingOrderService implements IShippingOrderService {
     @Override
     public List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId){
         return shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId);
+    };
+
+    @Override
+    public Double getTotalRevenueByShopOwnerId(Integer shopOwnerId){
+        List<ShippingOrder> shippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerId(shopOwnerId);
+        Double revenue = 0.0;
+        for(ShippingOrder shippingOrder : shippingOrders){
+            List<Product> products = shippingOrder.getProducts();
+            for(Product product: products){
+                revenue += product.getPrice();
+            }
+        }
+        return revenue;
     };
 
     @Override

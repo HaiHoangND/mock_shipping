@@ -71,4 +71,11 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
 
     @Query("SELECT so FROM ShippingOrder so WHERE so.shopOwner.id = :shopOwnerId")
     List<ShippingOrder> getShippingOrderByShopOwner(@Param("shopOwnerId") Integer shopOwnerId);
+
+    @Query("SELECT so FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id) " +
+            "AND os.status = 'Đã đưa tiền cho chủ shop' " +
+            "AND so.shopOwner.id = :shopOwnerId")
+    List<ShippingOrder> getAccountedShippingOrdersByShopOwnerId(@Param("shopOwnerId") Integer shopOwnerId);
 }

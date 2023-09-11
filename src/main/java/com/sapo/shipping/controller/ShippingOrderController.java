@@ -44,6 +44,12 @@ public class ShippingOrderController {
                 "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId));
     }
 
+    @GetMapping("/getTotalRevenue")
+    GeneralResponse<?> getTotalRevenue(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.getTotalRevenueByShopOwnerId(shopOwnerId));
+    }
+
     @GetMapping("/coordinatorStatistic")
     GeneralResponse<?> coordinatorStatistic() {
         return GeneralResponse.ok("success",
