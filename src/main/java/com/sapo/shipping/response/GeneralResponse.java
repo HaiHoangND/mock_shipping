@@ -23,4 +23,11 @@ public class GeneralResponse<T> implements Serializable {
                 .build();
     }
 
+    public static GeneralResponse<?> failed(String type,String message) {
+        return GeneralResponse.builder()
+                .type(type)
+                .message(message)
+                .build();
+    }
+
 }

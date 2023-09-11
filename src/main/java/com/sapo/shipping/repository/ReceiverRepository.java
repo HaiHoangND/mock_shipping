@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReceiverRepository extends JpaRepository<Receiver,Integer> {
-    @Query("SELECT r FROM Receiver r WHERE r.phone = :phone")
-    Receiver findByPhone(@Param("phone") String phone);
+    @Query("SELECT r FROM Receiver r WHERE r.phone = :phone and r.address = :address")
+    Receiver findByPhoneAndAddress(@Param("phone") String phone, @Param("address") String address);
 }
