@@ -49,6 +49,11 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
+    public List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId){
+        return shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId);
+    };
+
+    @Override
     public ShippingOrder findByOrderCode(String orderCode) {
         return shippingOrderRepository.findByOrderCode(orderCode);
     }

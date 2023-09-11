@@ -33,4 +33,6 @@ public interface IShippingOrderService {
 
     List<Object> coordinatorStatistic();
 
+    List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId);
+
 }

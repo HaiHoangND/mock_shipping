@@ -68,4 +68,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "AND YEAR(so.updatedAt) = :year " +
             "GROUP BY MONTH(so.updatedAt)")
     List<MonthProfit> statisticRevenueOfYear(@Param("year") Integer year);
+
+    @Query("SELECT so FROM ShippingOrder so WHERE so.shopOwner.id = :shopOwnerId")
+    List<ShippingOrder> getShippingOrderByShopOwner(@Param("shopOwnerId") Integer shopOwnerId);
 }
