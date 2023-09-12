@@ -22,6 +22,14 @@ public class UserController {
                 userService.getAll(pageNumber, pageSize));
     }
 
+    @GetMapping("/getAllShippers")
+    GeneralResponse<?> getAllShippers(@RequestParam int pageNumber,
+                                   @RequestParam int pageSize) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.getAllShippers(pageNumber, pageSize));
+    }
+
     @GetMapping("{id}")
     GeneralResponse<?> getUserById(@PathVariable int id) {
         return GeneralResponse.ok("success",

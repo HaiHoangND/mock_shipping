@@ -39,9 +39,10 @@ public class ShippingOrderController {
     }
 
     @GetMapping("/getByShopOwnerId")
-    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
+    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
+                                        @RequestParam int pageSize) {
         return GeneralResponse.ok("success",
-                "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId));
+                "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId, pageNumber, pageSize));
     }
 
     @GetMapping("/getTotalRevenue")

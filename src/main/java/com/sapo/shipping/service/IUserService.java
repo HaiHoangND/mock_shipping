@@ -23,4 +23,6 @@ public interface IUserService {
 
     List<UserWithStatus> getShippersWithStatus();
 
+    Page<User> getAllShippers(int pageNumber, int pageSize);
+
 }

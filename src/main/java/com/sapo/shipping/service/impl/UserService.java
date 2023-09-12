@@ -32,8 +32,14 @@ public class UserService implements IUserService {
 
     @Override
     public Page<User> getAll(int pageNumber, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return userRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public Page<User> getAllShippers(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return userRepository.getAllShippers(pageRequest);
     }
 
     @Override
@@ -43,7 +49,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserWithStatus> getShippersWithStatus(){
-        List<User> shippers = userRepository.getAllShippers();
+        List<User> shippers = userRepository.getAllAvailableShippers();
         List<UserWithStatus> usersWithStatus = new ArrayList<>();
         for (User user : shippers) {
             UserWithStatus userWithStatus = new UserWithStatus(user);

@@ -2,6 +2,8 @@ package com.sapo.shipping.repository;
 
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,6 +32,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.role = 'SHIPPER' AND u.workingStatus = true")
-    List<User> getAllShippers();
+    List<User> getAllAvailableShippers();
+
+    @Query("SELECT u FROM User u WHERE u.role = 'SHIPPER'")
+    Page<User> getAllShippers(PageRequest pageRequest);
 
 }

@@ -4,6 +4,7 @@ import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.dto.MonthProfit;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public interface IShippingOrderService {
 
     List<Object> coordinatorStatistic();
 
-    List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId);
+    Page<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId, int pageNumber, int pageSize);
 
     Double getTotalRevenueByShopOwnerId(Integer shopOwnerId);
 
