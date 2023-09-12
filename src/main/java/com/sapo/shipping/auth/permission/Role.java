@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import static com.sapo.shipping.auth.permission.Permission.*;
 
-
 @RequiredArgsConstructor
 public enum Role {
     ADMIN, COORDINATOR, SHIPPER, SHOP
