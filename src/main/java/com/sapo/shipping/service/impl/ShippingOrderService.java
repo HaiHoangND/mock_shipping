@@ -61,7 +61,7 @@ public class ShippingOrderService implements IShippingOrderService {
         for(ShippingOrder shippingOrder : shippingOrders){
             List<Product> products = shippingOrder.getProducts();
             for(Product product: products){
-                revenue += product.getPrice();
+                revenue += product.getPrice() * product.getQuantity();
             }
         }
         return revenue;
