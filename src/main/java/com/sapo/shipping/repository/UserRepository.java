@@ -34,7 +34,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.role = 'SHIPPER' AND u.workingStatus = true")
     List<User> getAllAvailableShippers();
 
-    @Query("SELECT u FROM User u WHERE u.role = 'SHIPPER'")
-    Page<User> getAllShippers(PageRequest pageRequest);
+    @Query("SELECT u FROM User u WHERE u.role = 'SHIPPER' AND (:keyWord IS NULL OR u.fullName LIKE %:keyWord% OR u.phone LIKE %:keyWord% OR String(u.id) LIKE %:keyWord%)")
+    Page<User> getAllShippers(PageRequest pageRequest, @Param("keyWord") String keyWord);
 
 }

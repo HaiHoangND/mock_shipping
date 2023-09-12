@@ -22,7 +22,7 @@ public interface IShippingOrderService {
 
     Boolean delete(int id);
 
-//    ShippingOrder findByOrderCode(String orderCode);
+    ShippingOrder findByCode(String orderCode);
 
     Long countShippingOrdersAreDelivering();
 

@@ -24,10 +24,10 @@ public class UserController {
 
     @GetMapping("/getAllShippers")
     GeneralResponse<?> getAllShippers(@RequestParam int pageNumber,
-                                   @RequestParam int pageSize) {
+                                   @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
-                userService.getAllShippers(pageNumber, pageSize));
+                userService.getAllShippers(pageNumber, pageSize, keyWord));
     }
 
     @GetMapping("{id}")

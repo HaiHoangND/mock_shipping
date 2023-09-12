@@ -38,9 +38,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Page<UserWithStatus> getAllShippers(int pageNumber, int pageSize) {
+    public Page<UserWithStatus> getAllShippers(int pageNumber, int pageSize, String keyWord) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        Page<User> shippersPage = userRepository.getAllShippers(pageRequest);
+        Page<User> shippersPage = userRepository.getAllShippers(pageRequest, keyWord);
 
         List<UserWithStatus> shippersWithStatus = new ArrayList<>();
         for (User user : shippersPage.getContent()) {

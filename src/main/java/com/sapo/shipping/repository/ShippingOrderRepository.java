@@ -18,6 +18,9 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     @Query("SELECT so FROM ShippingOrder so where so.orderCode LIKE %:orderCode%")
     Page<ShippingOrder> findByOrderCode(@Param("orderCode") String orderCode, PageRequest pageRequest);
 
+    @Query("SELECT so FROM ShippingOrder so where so.orderCode = :orderCode")
+    ShippingOrder findByCode(@Param("orderCode") String orderCode);
+
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +

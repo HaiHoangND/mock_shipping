@@ -72,10 +72,10 @@ public class ShippingOrderService implements IShippingOrderService {
         return revenue;
     };
 
-//    @Override
-//    public ShippingOrder findByOrderCode(String orderCode) {
-//        return shippingOrderRepository.findByOrderCode(orderCode);
-//    }
+    @Override
+    public ShippingOrder findByCode(String orderCode) {
+        return shippingOrderRepository.findByCode(orderCode);
+    }
 
     @Override
     public List<MonthProfit> statisticRevenueOfYear(Integer year){

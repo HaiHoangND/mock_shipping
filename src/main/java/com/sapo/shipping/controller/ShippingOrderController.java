@@ -32,11 +32,11 @@ public class ShippingOrderController {
                 shippingOrderService.getById(id));
     }
 
-//    @GetMapping("/getByCode")
-//    GeneralResponse<?> getShippingOrderByOrderCode(@RequestParam(name = "orderCode") String orderCode) {
-//        return GeneralResponse.ok("success",
-//                "Successfully fetched", shippingOrderService.findByOrderCode(orderCode));
-//    }
+    @GetMapping("/getByCode")
+    GeneralResponse<?> getShippingOrderByOrderCode(@RequestParam(name = "orderCode") String orderCode) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.findByCode(orderCode));
+    }
 
     @GetMapping("/getByShopOwnerId")
     GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
