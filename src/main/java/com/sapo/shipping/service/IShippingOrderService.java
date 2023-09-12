@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IShippingOrderService {
-    Page<ShippingOrder> getAll(int pageNumber, int pageSize);
+    Page<ShippingOrder> getAll(int pageNumber, int pageSize, String orderCode);
 
     ShippingOrder getById(int id);
 
@@ -22,7 +22,7 @@ public interface IShippingOrderService {
 
     Boolean delete(int id);
 
-    ShippingOrder findByOrderCode(String orderCode);
+//    ShippingOrder findByOrderCode(String orderCode);
 
     Long countShippingOrdersAreDelivering();
 
@@ -34,7 +34,7 @@ public interface IShippingOrderService {
 
     List<Object> coordinatorStatistic();
 
-    Page<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId, int pageNumber, int pageSize);
+    Page<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId, int pageNumber, int pageSize, String orderCode);
 
     Double getTotalRevenueByShopOwnerId(Integer shopOwnerId);
 

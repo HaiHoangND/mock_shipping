@@ -39,8 +39,11 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
-    public Page<ShippingOrder> getAll(int pageNumber, int pageSize) {
+    public Page<ShippingOrder> getAll(int pageNumber, int pageSize, String orderCode) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        if (orderCode != null) {
+            return shippingOrderRepository.findByOrderCode(orderCode, pageRequest);
+        }
         return shippingOrderRepository.findAll(pageRequest);
     }
 
@@ -51,9 +54,9 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
-    public Page<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId,int pageNumber, int pageSize){
+    public Page<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId,int pageNumber, int pageSize, String orderCode){
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId, pageRequest);
+        return shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId, pageRequest, orderCode);
     };
 
     @Override
@@ -69,10 +72,10 @@ public class ShippingOrderService implements IShippingOrderService {
         return revenue;
     };
 
-    @Override
-    public ShippingOrder findByOrderCode(String orderCode) {
-        return shippingOrderRepository.findByOrderCode(orderCode);
-    }
+//    @Override
+//    public ShippingOrder findByOrderCode(String orderCode) {
+//        return shippingOrderRepository.findByOrderCode(orderCode);
+//    }
 
     @Override
     public List<MonthProfit> statisticRevenueOfYear(Integer year){
@@ -112,7 +115,7 @@ public class ShippingOrderService implements IShippingOrderService {
     public List<Object> shopOwnerStatistic(Integer shopOwnerId){
         PageRequest p = PageRequest.of(0, Integer.MAX_VALUE);
         List<Object> data = new ArrayList<>();
-        int shippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId,p).getSize();
+        int shippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId,p, null).getNumberOfElements();
         Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering(shopOwnerId);
         int successfulShippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerId(shopOwnerId).size();
         Map<String, Object> statisticsMap = new HashMap<>();

@@ -19,10 +19,10 @@ public class ShippingOrderController {
 
     @GetMapping
     GeneralResponse<?> getAllShippingOrders(@RequestParam int pageNumber,
-                                            @RequestParam int pageSize) {
+                                            @RequestParam int pageSize, @RequestParam(name = "orderCode", required = false) String orderCode) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
-                shippingOrderService.getAll(pageNumber, pageSize));
+                shippingOrderService.getAll(pageNumber, pageSize, orderCode));
     }
 
     @GetMapping("{id}")
@@ -32,17 +32,17 @@ public class ShippingOrderController {
                 shippingOrderService.getById(id));
     }
 
-    @GetMapping("/getByCode")
-    GeneralResponse<?> getShippingOrderByOrderCode(@RequestParam(name = "orderCode") String orderCode) {
-        return GeneralResponse.ok("success",
-                "Successfully fetched", shippingOrderService.findByOrderCode(orderCode));
-    }
+//    @GetMapping("/getByCode")
+//    GeneralResponse<?> getShippingOrderByOrderCode(@RequestParam(name = "orderCode") String orderCode) {
+//        return GeneralResponse.ok("success",
+//                "Successfully fetched", shippingOrderService.findByOrderCode(orderCode));
+//    }
 
     @GetMapping("/getByShopOwnerId")
     GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
-                                        @RequestParam int pageSize) {
+                                        @RequestParam int pageSize, @RequestParam(name = "orderCode", required = false) String orderCode) {
         return GeneralResponse.ok("success",
-                "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId, pageNumber, pageSize));
+                "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId, pageNumber, pageSize, orderCode));
     }
 
     @GetMapping("/getTotalRevenue")
