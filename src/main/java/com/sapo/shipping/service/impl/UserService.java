@@ -11,6 +11,7 @@ import com.sapo.shipping.service.IUserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +38,19 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Page<User> getAllShippers(int pageNumber, int pageSize) {
+    public Page<UserWithStatus> getAllShippers(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return userRepository.getAllShippers(pageRequest);
+        Page<User> shippersPage = userRepository.getAllShippers(pageRequest);
+
+        List<UserWithStatus> shippersWithStatus = new ArrayList<>();
+        for (User user : shippersPage.getContent()) {
+            UserWithStatus userWithStatus = new UserWithStatus(user);
+            Integer ordersInProgress = userRepository.getFilteredShippingOrders(user.getId(), "unSuccessful").size();
+            userWithStatus.setOrdersInProgress(ordersInProgress);
+            shippersWithStatus.add(userWithStatus);
+        }
+
+        return new PageImpl<>(shippersWithStatus, pageRequest, shippersPage.getTotalElements());
     }
 
     @Override
