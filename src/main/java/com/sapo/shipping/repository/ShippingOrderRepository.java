@@ -20,13 +20,14 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
             "WHERE os.isArriving = TRUE " +
+            "AND (:shopOwnerId IS NULL OR so.shopOwner.id = :shopOwnerId)" +
             "AND os.id IN (" +
             "    SELECT MAX(os2.id) " +
             "    FROM OrderStatus os2 " +
             "    GROUP BY os2.shippingOrder.id " +
             ")"
     )
-    Long countShippingOrdersAreDelivering();
+    Long countShippingOrdersAreDelivering(@Param("shopOwnerId") Integer shopOwnerId);
 
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +

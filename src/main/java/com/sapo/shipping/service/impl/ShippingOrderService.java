@@ -79,7 +79,7 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public Long countShippingOrdersAreDelivering(){
-        return shippingOrderRepository.countShippingOrdersAreDelivering();
+        return shippingOrderRepository.countShippingOrdersAreDelivering(null);
     };
 
     @Override
@@ -96,12 +96,26 @@ public class ShippingOrderService implements IShippingOrderService {
     public List<Object> coordinatorStatistic(){
         List<Object> data = new ArrayList<>();
         int shippingOrders = shippingOrderRepository.findAll().size();
-        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering();
+        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering(null);
         int availableShippers = userRepository.getAllShippers().size();
         Map<String, Object> statisticsMap = new HashMap<>();
         statisticsMap.put("ShippingOrders", shippingOrders);
         statisticsMap.put("Delivering", deliveringShippingOrders);
         statisticsMap.put("Shippers", availableShippers);
+        data.add(statisticsMap);
+        return data;
+    };
+
+    @Override
+    public List<Object> shopOwnerStatistic(Integer shopOwnerId){
+        List<Object> data = new ArrayList<>();
+        int shippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId).size();
+        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering(shopOwnerId);
+        int successfulShippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerId(shopOwnerId).size();
+        Map<String, Object> statisticsMap = new HashMap<>();
+        statisticsMap.put("ShippingOrders", shippingOrders);
+        statisticsMap.put("Delivering", deliveringShippingOrders);
+        statisticsMap.put("Successful", successfulShippingOrders);
         data.add(statisticsMap);
         return data;
     };
