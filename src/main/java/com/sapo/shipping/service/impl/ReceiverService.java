@@ -44,6 +44,11 @@ public class ReceiverService implements IReceiverService {
         if (!errors.isEmpty()) {
             throw new BusinessException("400","error", errors.get(0));
         }
+        String phone = receiverDto.getPhone();
+        String address = receiverDto.getAddress();
+        if(receiverRepository.findByPhoneAndAddress(phone, address) != null){
+            throw new BusinessException("400", "error", "Receiver existed");
+        }
         Receiver receiver = mapper.createEntity(receiverDto);
         return receiverRepository.save(receiver);
     }

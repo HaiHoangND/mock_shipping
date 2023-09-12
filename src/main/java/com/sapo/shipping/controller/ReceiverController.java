@@ -27,7 +27,11 @@ public class ReceiverController {
 
     @PostMapping
     GeneralResponse<?> createReceiver(@RequestBody ReceiverDto receiverDto) {
-        return GeneralResponse.ok("success", " Receiver Successfully created",receiverService.createReceiver(receiverDto));
+        try {
+            return GeneralResponse.ok("success", "Receiver Successfully created", receiverService.createReceiver(receiverDto));
+        } catch (Exception e) {
+            return GeneralResponse.failed("failed", e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")

@@ -35,4 +35,8 @@ public interface IShippingOrderService {
 
     List<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId);
 
+    Double getTotalRevenueByShopOwnerId(Integer shopOwnerId);
+
+    List<Object> shopOwnerStatistic(Integer shopOwnerId);
+
 }

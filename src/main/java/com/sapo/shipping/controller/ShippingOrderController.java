@@ -26,7 +26,7 @@ public class ShippingOrderController {
     }
 
     @GetMapping("{id}")
-    GeneralResponse<?> getShippingOrdertById(@PathVariable int id) {
+    GeneralResponse<?> getShippingOrderById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
                 shippingOrderService.getById(id));
@@ -44,10 +44,22 @@ public class ShippingOrderController {
                 "Successfully fetched", shippingOrderService.getShippingOrderByShopOwner(shopOwnerId));
     }
 
+    @GetMapping("/getTotalRevenue")
+    GeneralResponse<?> getTotalRevenue(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.getTotalRevenueByShopOwnerId(shopOwnerId));
+    }
+
     @GetMapping("/coordinatorStatistic")
     GeneralResponse<?> coordinatorStatistic() {
         return GeneralResponse.ok("success",
                 "Successfully fetched", shippingOrderService.coordinatorStatistic());
+    }
+
+    @GetMapping("/shopOwnerStatistic")
+    GeneralResponse<?> shopOwnerStatistic(@RequestParam(name = "shopOwnerId") Integer shopOwnerId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.shopOwnerStatistic(shopOwnerId));
     }
 
     @GetMapping("/getTotalRevenueForDay")

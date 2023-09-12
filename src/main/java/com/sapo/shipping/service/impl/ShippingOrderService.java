@@ -2,6 +2,7 @@ package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.dto.MonthProfit;
+import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ShippingOrderMapper;
@@ -54,6 +55,19 @@ public class ShippingOrderService implements IShippingOrderService {
     };
 
     @Override
+    public Double getTotalRevenueByShopOwnerId(Integer shopOwnerId){
+        List<ShippingOrder> shippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerId(shopOwnerId);
+        Double revenue = 0.0;
+        for(ShippingOrder shippingOrder : shippingOrders){
+            List<Product> products = shippingOrder.getProducts();
+            for(Product product: products){
+                revenue += product.getPrice() * product.getQuantity();
+            }
+        }
+        return revenue;
+    };
+
+    @Override
     public ShippingOrder findByOrderCode(String orderCode) {
         return shippingOrderRepository.findByOrderCode(orderCode);
     }
@@ -65,7 +79,7 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public Long countShippingOrdersAreDelivering(){
-        return shippingOrderRepository.countShippingOrdersAreDelivering();
+        return shippingOrderRepository.countShippingOrdersAreDelivering(null);
     };
 
     @Override
@@ -82,12 +96,26 @@ public class ShippingOrderService implements IShippingOrderService {
     public List<Object> coordinatorStatistic(){
         List<Object> data = new ArrayList<>();
         int shippingOrders = shippingOrderRepository.findAll().size();
-        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering();
+        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering(null);
         int availableShippers = userRepository.getAllShippers().size();
         Map<String, Object> statisticsMap = new HashMap<>();
         statisticsMap.put("ShippingOrders", shippingOrders);
         statisticsMap.put("Delivering", deliveringShippingOrders);
         statisticsMap.put("Shippers", availableShippers);
+        data.add(statisticsMap);
+        return data;
+    };
+
+    @Override
+    public List<Object> shopOwnerStatistic(Integer shopOwnerId){
+        List<Object> data = new ArrayList<>();
+        int shippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwnerId).size();
+        Long deliveringShippingOrders = shippingOrderRepository.countShippingOrdersAreDelivering(shopOwnerId);
+        int successfulShippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerId(shopOwnerId).size();
+        Map<String, Object> statisticsMap = new HashMap<>();
+        statisticsMap.put("ShippingOrders", shippingOrders);
+        statisticsMap.put("Delivering", deliveringShippingOrders);
+        statisticsMap.put("Successful", successfulShippingOrders);
         data.add(statisticsMap);
         return data;
     };
