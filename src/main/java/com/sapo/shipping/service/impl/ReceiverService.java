@@ -6,6 +6,7 @@ import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ReceiverMapper;
 import com.sapo.shipping.repository.ReceiverRepository;
 import com.sapo.shipping.service.IReceiverService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,7 @@ public class ReceiverService implements IReceiverService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public Receiver createReceiver(ReceiverDto receiverDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(receiverDto)
@@ -54,7 +56,7 @@ public class ReceiverService implements IReceiverService {
     }
 
     @Override
-
+    @Transactional(rollbackOn = Exception.class)
     public Receiver updateReceiver(Integer id, ReceiverDto receiverDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(receiverDto)
@@ -69,6 +71,7 @@ public class ReceiverService implements IReceiverService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public List<Receiver> deleteReceiverById(Integer id) {
         receiverRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Receiver not found"));

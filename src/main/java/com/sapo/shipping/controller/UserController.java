@@ -30,6 +30,14 @@ public class UserController {
                 userService.getAllShippers(pageNumber, pageSize, keyWord));
     }
 
+    @GetMapping("/getAllShopOwners")
+    GeneralResponse<?> getAllShopOwners(@RequestParam int pageNumber,
+                                      @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.getAllShopOwners(pageNumber, pageSize, keyWord));
+    }
+
     @GetMapping("{id}")
     GeneralResponse<?> getUserById(@PathVariable int id) {
         return GeneralResponse.ok("success",

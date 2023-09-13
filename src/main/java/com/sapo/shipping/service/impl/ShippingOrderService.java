@@ -127,6 +127,7 @@ public class ShippingOrderService implements IShippingOrderService {
     };
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public ShippingOrder create(ShippingOrderDto shippingOrderDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(shippingOrderDto)
@@ -154,6 +155,7 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public Boolean delete(int id) {
         shippingOrderRepository.findById(id)
                 .orElseThrow(()-> new BusinessException("404", "error", "Order not found"));

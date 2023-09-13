@@ -43,6 +43,7 @@ public class OrderRouteService implements IOrderRouteService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public OrderRoute create(OrderRouteDto orderRouteDto){
         List<String> errors = new ArrayList<>();
         validator.validate(orderRouteDto)
@@ -70,6 +71,7 @@ public class OrderRouteService implements IOrderRouteService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public List<OrderRoute> delete(int id) {
         orderRouteRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "OrderRoute not found"));

@@ -25,4 +25,6 @@ public interface IUserService {
 
     Page<UserWithStatus> getAllShippers(int pageNumber, int pageSize, String keyWord);
 
+    Page<User> getAllShopOwners(int pageNumber, int pageSize, String keyWord);
+
 }

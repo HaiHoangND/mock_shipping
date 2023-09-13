@@ -38,6 +38,12 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Page<User> getAllShopOwners(int pageNumber, int pageSize, String keyWord) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return userRepository.getAllShopOwners(pageRequest, keyWord);
+    }
+
+    @Override
     public Page<UserWithStatus> getAllShippers(int pageNumber, int pageSize, String keyWord) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         Page<User> shippersPage = userRepository.getAllShippers(pageRequest, keyWord);
