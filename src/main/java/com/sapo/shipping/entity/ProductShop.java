@@ -8,8 +8,8 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table
-public class Product implements Serializable {
+@Table(name = "product_shop")
+public class ProductShop implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,7 +23,7 @@ public class Product implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private ShippingOrder shippingOrder;
+    @JoinColumn(name = "shop_owner_id")
+    private User shopOwner;
 
 }

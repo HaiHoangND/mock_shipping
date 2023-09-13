@@ -17,5 +17,4 @@ public interface IProductService {
 
     Boolean delete(int id);
 
-    Page<Product> getProductsByShopOwnerId(Integer shopOwnerId,int pageNumber, int pageSize);
 }

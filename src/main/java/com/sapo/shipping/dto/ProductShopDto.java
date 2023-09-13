@@ -1,6 +1,5 @@
 package com.sapo.shipping.dto;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductDto {
+public class ProductShopDto {
     private int id;
 
     @NotBlank(message = "Name must not be empty")
@@ -24,6 +23,5 @@ public class ProductDto {
     @NotNull(message = "Weight must not be empty")
     private Float weight;
     private String description;
-
-    private int shippingOrderId;
+    private int shopOwnerId;
 }

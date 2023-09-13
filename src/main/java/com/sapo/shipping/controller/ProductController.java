@@ -28,14 +28,6 @@ public class ProductController {
                 productService.getById(id));
     }
 
-    @GetMapping("/getByShopOwnerId")
-    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
-                                        @RequestParam int pageSize) {
-        return GeneralResponse.ok("success",
-                "Successfully fetched",
-                productService.getProductsByShopOwnerId(shopOwnerId, pageNumber, pageSize));
-    }
-
     @PostMapping
     GeneralResponse<?> createProduct(@RequestBody ProductDto productDto) {
         return GeneralResponse.ok("success",

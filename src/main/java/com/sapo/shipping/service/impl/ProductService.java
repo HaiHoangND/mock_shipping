@@ -39,12 +39,6 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<Product> getProductsByShopOwnerId(Integer shopOwnerId,int pageNumber, int pageSize){
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return productRepository.getProductsByShopOwnerId(shopOwnerId, pageRequest);
-    };
-
-    @Override
     public Product create(ProductDto productDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(productDto)
