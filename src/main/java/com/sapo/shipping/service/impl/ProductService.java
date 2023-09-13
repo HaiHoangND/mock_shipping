@@ -8,6 +8,8 @@ import com.sapo.shipping.repository.ProductRepository;
 import com.sapo.shipping.service.IProductService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,6 +37,12 @@ public class ProductService implements IProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Product not found"));
     }
+
+    @Override
+    public Page<Product> getProductsByShopOwnerId(Integer shopOwnerId,int pageNumber, int pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return productRepository.getProductsByShopOwnerId(shopOwnerId, pageRequest);
+    };
 
     @Override
     public Product create(ProductDto productDto) {
