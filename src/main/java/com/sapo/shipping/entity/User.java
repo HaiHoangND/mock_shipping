@@ -7,12 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -41,12 +42,13 @@ public class User implements UserDetails {
     @Column(name = "working_status")
     private boolean workingStatus;
 
-    @OneToMany(mappedBy = "shopOwner")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "shopOwner",cascade = CascadeType.ALL)
     private List<Receiver> receiverList;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role.name()));
+//        return role.getAuthorities();
         return null;
     }
 

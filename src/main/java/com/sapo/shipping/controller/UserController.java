@@ -1,5 +1,6 @@
 package com.sapo.shipping.controller;
 
+import com.sapo.shipping.config.JwtService;
 import com.sapo.shipping.dto.UserDto;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.UserService;
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final JwtService jwtService;
+
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping
@@ -38,10 +42,13 @@ public class UserController {
     }
 
     @GetMapping("/getFilterShippingOrders")
-    GeneralResponse<?> getFilterShippingOrders(@RequestParam(name = "shipperId") Integer shipperId, @RequestParam(name = "statusFilter") String statusFilter) {
-        return GeneralResponse.ok("success",
-                "Successfully fetched",
-                userService.getFilteredShippingOrders(shipperId,statusFilter));
+    GeneralResponse<?> getFilterShippingOrders(
+            @RequestParam(name = "shipperId") Integer shipperId, @RequestParam(name = "statusFilter") String statusFilter) {
+            return GeneralResponse.ok("success",
+                    "Successfully fetched",
+                    userService.getFilteredShippingOrders(shipperId,statusFilter));
+
+
     }
 
     @GetMapping("/getShippersWithStatus")

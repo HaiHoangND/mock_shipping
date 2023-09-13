@@ -30,7 +30,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("token");
+        if (request.getServletPath().contains("/api/authenticate")
+                || request.getServletPath().contains("/api/register")
+        ) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -39,19 +45,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
+        System.out.println(jwt);
         userEmail = jwtService.extractUsername(jwt);   //extract userEmail from JWR token
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
+                System.out.println("Thành công");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities()
                 );
-
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
+                System.out.println(authToken);
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
