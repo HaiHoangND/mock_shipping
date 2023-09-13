@@ -15,11 +15,14 @@ import java.util.List;
 
 @Repository
 public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Integer> {
-    @Query("SELECT so FROM ShippingOrder so where so.orderCode LIKE %:orderCode%")
+    @Query("SELECT so FROM ShippingOrder so where so.orderCode LIKE %:orderCode% ORDER BY so.updatedAt DESC")
     Page<ShippingOrder> findByOrderCode(@Param("orderCode") String orderCode, PageRequest pageRequest);
 
-    @Query("SELECT so FROM ShippingOrder so where so.orderCode = :orderCode")
+    @Query("SELECT so FROM ShippingOrder so where so.orderCode = :orderCode ORDER BY so.updatedAt DESC")
     ShippingOrder findByCode(@Param("orderCode") String orderCode);
+
+    @Query("SELECT so FROM ShippingOrder so ORDER BY so.updatedAt DESC")
+    Page<ShippingOrder> findAll(PageRequest pageRequest);
 
     @Query("SELECT COUNT(so) " +
             "FROM ShippingOrder so " +
@@ -75,7 +78,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "GROUP BY MONTH(so.updatedAt)")
     List<MonthProfit> statisticRevenueOfYear(@Param("year") Integer year);
 
-    @Query("SELECT so FROM ShippingOrder so WHERE so.shopOwner.id = :shopOwnerId AND (:orderCode IS NULL OR so.orderCode LIKE %:orderCode%)")
+    @Query("SELECT so FROM ShippingOrder so WHERE so.shopOwner.id = :shopOwnerId AND (:orderCode IS NULL OR so.orderCode LIKE %:orderCode%) ORDER BY so.updatedAt DESC")
     Page<ShippingOrder> getShippingOrderByShopOwner(@Param("shopOwnerId") Integer shopOwnerId, PageRequest pageRequest, @Param("orderCode") String orderCode);
 
     @Query("SELECT so FROM ShippingOrder so " +
