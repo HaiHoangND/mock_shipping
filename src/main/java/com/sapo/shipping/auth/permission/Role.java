@@ -14,42 +14,13 @@ import static com.sapo.shipping.auth.permission.Permission.*;
 
 @RequiredArgsConstructor
 public enum Role {
-    ADMIN, COORDINATOR, SHIPPER, SHOP
-//    USER(Collections.emptySet()),
-//    ADMIN(
-//            Set.of(
-//                    ADMIN_READ,
-//                    ADMIN_UPDATE,
-//                    ADMIN_DELETE,
-//                    ADMIN_CREATE,
-//                    COORDINATOR_READ,
-//                    COORDINATOR_UPDATE,
-//                    COORDINATOR_DELETE,
-//                    COORDINATOR_CREATE,
-//                    SHIPPER_READ,
-//                    SHIPPER_UPDATE,
-//                    SHIPPER_DELETE,
-//                    SHIPPER_CREATE
-//            )
-//    ),
-//    COORDINATOR(
-//            Set.of(
-//                    COORDINATOR_READ,
-//                    COORDINATOR_UPDATE,
-//                    COORDINATOR_DELETE,
-//                    COORDINATOR_CREATE
-//            )
-//    ),
-//    SHIPPER(
-//            Set.of(
-//                    SHIPPER_READ,
-//                    SHIPPER_UPDATE,
-//                    SHIPPER_DELETE,
-//                    SHIPPER_CREATE
-//                    )
-//    )
-//
-//
+    ADMIN,COORDINATOR,SHIPPER,SHOP
+//    ADMIN(Collections.emptySet())
+//    ,
+//    COORDINATOR(Collections.emptySet()),
+//    SHIPPER(Collections.emptySet()),
+//    SHOP(Collections.emptySet())
+
 //    ;
 //
 //    @Getter

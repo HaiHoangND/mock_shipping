@@ -13,6 +13,7 @@ import jakarta.validation.Validator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,6 +84,8 @@ public class UserService implements IUserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "User not found"));
     }
+
+
 
     @Override
     public User create(UserDto userDto) {
