@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
-    @Query("SELECT p FROM Product p JOIN ShippingOrder so ON p.shippingOrder.id = so.id WHERE so.shopOwner.id = :shopOwnerId")
+    @Query("SELECT p FROM Product p WHERE p.shopOwner.id = :shopOwnerId")
     Page<Product> getProductsByShopOwnerId(@Param("shopOwnerId") Integer shopOwnerId, PageRequest pageRequest);
 }

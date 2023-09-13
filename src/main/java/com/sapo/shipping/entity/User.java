@@ -45,7 +45,8 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "shopOwner",cascade = CascadeType.ALL)
     private List<Receiver> receiverList;
 
-
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "shopOwner",cascade = CascadeType.ALL)
+    private List<Product> products;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 //        return role.getAuthorities();

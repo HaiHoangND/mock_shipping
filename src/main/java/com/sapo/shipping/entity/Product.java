@@ -26,4 +26,9 @@ public class Product implements Serializable {
     @JoinColumn(name = "order_id")
     private ShippingOrder shippingOrder;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "shop_owner_id")
+    private User shopOwner;
+
 }

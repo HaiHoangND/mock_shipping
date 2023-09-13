@@ -26,4 +26,5 @@ public class ProductDto {
     private String description;
 
     private int shippingOrderId;
+    private int shopOwnerId;
 }

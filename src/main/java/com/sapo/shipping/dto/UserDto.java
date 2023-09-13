@@ -1,5 +1,6 @@
 package com.sapo.shipping.dto;
 
+import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.Receiver;
 import lombok.*;
 
@@ -21,4 +22,5 @@ public class UserDto {
     private String profilePicture;
     private boolean workingStatus;
     private List<Receiver> receivers;
+    private List<Product> products;
 }
