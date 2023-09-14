@@ -70,7 +70,8 @@ public class ReceiverService implements IReceiverService {
         }
         String phone = receiverDto.getPhone();
         String address = receiverDto.getAddress();
-        if(receiverRepository.findByPhoneAndAddress(phone, address) != null){
+        int shopOwnerId = receiverDto.getShopOwnerId();
+        if(receiverRepository.findByPhoneAndAddress(phone, address, shopOwnerId) != null){
             throw new BusinessException("400", "error", "Receiver existed");
         }
         Receiver receiver = mapper.createEntity(receiverDto);

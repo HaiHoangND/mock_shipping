@@ -40,9 +40,13 @@ public class ProductShopController {
 
     @PostMapping
     GeneralResponse<?> createProductShop(@RequestBody ProductShopDto productShopDto) {
-        return GeneralResponse.ok("success",
-                "Successfully created",
-                productShopService.create(productShopDto));
+        try {
+            return GeneralResponse.ok("success",
+                    "Successfully created",
+                    productShopService.create(productShopDto));
+        }catch (Exception e){
+            return GeneralResponse.failed("failed", e.getMessage());
+        }
     }
 
     @PutMapping("{id}")

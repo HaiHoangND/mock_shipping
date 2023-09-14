@@ -50,6 +50,7 @@ public class ProductShopService implements IProductShopService {
     };
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public ProductShop create(ProductShopDto productShopDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(productShopDto)
@@ -57,9 +58,14 @@ public class ProductShopService implements IProductShopService {
         if (!errors.isEmpty()) {
             throw new BusinessException("400", "error", errors.get(0));
         }
+        String productCode = productShopDto.getProductCode();
+        int shopOwnerId = productShopDto.getShopOwnerId();
+        String error = productCode + " existed";
+        if(productShopRepository.getProductShopByProductCodeAndShopOwnerId(shopOwnerId, productCode) != null){
+            throw new BusinessException("400", "error", error);
+        }
         ProductShop productShop = mapper.createEntity(productShopDto);
         return productShopRepository.save(productShop);
-
     }
 
     @Override
