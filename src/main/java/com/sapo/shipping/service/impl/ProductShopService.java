@@ -50,6 +50,15 @@ public class ProductShopService implements IProductShopService {
     };
 
     @Override
+    public Boolean checkNotExistedProductCode(Integer shopOwnerId, String productCode){
+        String error = "Mã sản phẩm " + productCode + " đã tồn tại";
+        if(productShopRepository.getProductShopByProductCodeAndShopOwnerId(shopOwnerId, productCode) != null){
+            throw new BusinessException("400", "error", error);
+        }
+        return true;
+    };
+
+    @Override
     @Transactional(rollbackOn = Exception.class)
     public ProductShop create(ProductShopDto productShopDto) {
         List<String> errors = new ArrayList<>();
@@ -60,7 +69,7 @@ public class ProductShopService implements IProductShopService {
         }
         String productCode = productShopDto.getProductCode();
         int shopOwnerId = productShopDto.getShopOwnerId();
-        String error = productCode + " existed";
+        String error = "Mã sản phẩm " + productCode + " đã tồn tại";
         if(productShopRepository.getProductShopByProductCodeAndShopOwnerId(shopOwnerId, productCode) != null){
             throw new BusinessException("400", "error", error);
         }

@@ -20,4 +20,6 @@ public interface IProductShopService {
     Boolean delete(int id);
 
     Page<ProductShop> getProductShopsByShopOwnerId(Integer shopOwnerId, int pageNumber, int pageSize, String keyWord);
+
+    Boolean checkNotExistedProductCode(Integer shopOwnerId, String productCode);
 }
