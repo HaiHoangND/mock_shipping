@@ -44,9 +44,9 @@ public class ProductShopService implements IProductShopService {
     }
 
     @Override
-    public Page<ProductShop> getProductShopsByShopOwnerId(Integer shopOwnerId, int pageNumber, int pageSize){
+    public Page<ProductShop> getProductShopsByShopOwnerId(Integer shopOwnerId, int pageNumber, int pageSize, String keyWord){
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return productShopRepository.getProductShopsByShopOwnerId(shopOwnerId, pageRequest);
+        return productShopRepository.getProductShopsByShopOwnerId(shopOwnerId, pageRequest, keyWord);
     };
 
     @Override

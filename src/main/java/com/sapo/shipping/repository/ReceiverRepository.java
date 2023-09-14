@@ -14,6 +14,6 @@ public interface ReceiverRepository extends JpaRepository<Receiver,Integer> {
     @Query("SELECT r FROM Receiver r WHERE r.phone = :phone and r.address = :address")
     Receiver findByPhoneAndAddress(@Param("phone") String phone, @Param("address") String address);
 
-    @Query("SELECT r FROM Receiver r WHERE r.shopOwner.id = :shopOwnerId")
-    Page<Receiver> getReceiversByShopOwnerId(@Param("shopOwnerId") Integer shopOwnerId, PageRequest pageRequest);
+    @Query("SELECT r FROM Receiver r WHERE r.shopOwner.id = :shopOwnerId AND (:keyWord IS NULL OR CONCAT(r.name, r.address, r.phone) LIKE %:keyWord%)")
+    Page<Receiver> getReceiversByShopOwnerId(@Param("shopOwnerId") Integer shopOwnerId, PageRequest pageRequest, @Param("keyWord") String keyWord);
 }

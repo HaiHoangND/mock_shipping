@@ -26,8 +26,8 @@ public class ReceiverController {
     }
 
     @GetMapping("/getByShopOwnerId")
-    GeneralResponse<?> getByShopOwnerId(@RequestParam Integer shopOwnerId,@RequestParam int pageNumber, @RequestParam int pageSize) {
-        return GeneralResponse.ok("success", " Receiver Successfully fetched",receiverService.getReceiverByShopOwnerId(shopOwnerId, pageNumber, pageSize));
+    GeneralResponse<?> getByShopOwnerId(@RequestParam Integer shopOwnerId,@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
+        return GeneralResponse.ok("success", " Receiver Successfully fetched",receiverService.getReceiverByShopOwnerId(shopOwnerId, pageNumber, pageSize, keyWord));
     }
 
     @PostMapping

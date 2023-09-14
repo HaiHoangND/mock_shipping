@@ -32,10 +32,10 @@ public class ProductShopController {
 
     @GetMapping("/getByShopOwnerId")
     GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
-                                        @RequestParam int pageSize) {
+                                        @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
-                productShopService.getProductShopsByShopOwnerId(shopOwnerId, pageNumber, pageSize));
+                productShopService.getProductShopsByShopOwnerId(shopOwnerId, pageNumber, pageSize, keyWord));
     }
 
     @PostMapping

@@ -87,4 +87,17 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "AND os.status = 'Đã đưa tiền cho chủ shop' " +
             "AND so.shopOwner.id = :shopOwnerId")
     List<ShippingOrder> getAccountedShippingOrdersByShopOwnerId(@Param("shopOwnerId") Integer shopOwnerId);
+
+    @Query("SELECT COUNT(so) FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id) " +
+            "AND os.status IN ('Giao hàng thành công','Quản lý đã nhận tiền','Đã đưa tiền cho chủ shop') " +
+            "AND so.receiver.id = :receiverId")
+    Integer countSuccessfulShippingOrdersByReceiverId(@Param("receiverId") Integer receiverId);
+
+    @Query("SELECT COUNT(so) FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id) " +
+            "AND so.receiver.id = :receiverId")
+    Integer countShippingOrdersByReceiverId(@Param("receiverId") Integer receiverId);
 }

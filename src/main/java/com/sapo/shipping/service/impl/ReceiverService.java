@@ -1,14 +1,17 @@
 package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ReceiverDto;
+import com.sapo.shipping.dto.ReceiverWithOrders;
 import com.sapo.shipping.entity.Receiver;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ReceiverMapper;
 import com.sapo.shipping.repository.ReceiverRepository;
+import com.sapo.shipping.repository.ShippingOrderRepository;
 import com.sapo.shipping.service.IReceiverService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +24,12 @@ public class ReceiverService implements IReceiverService {
     private final ReceiverMapper mapper;
     private final Validator validator;
 
-
-    public ReceiverService(ReceiverRepository receiverRepository, ReceiverMapper mapper, Validator validator) {
+    private final ShippingOrderRepository shippingOrderRepository;
+    public ReceiverService(ShippingOrderRepository shippingOrderRepository,ReceiverRepository receiverRepository, ReceiverMapper mapper, Validator validator) {
         this.receiverRepository = receiverRepository;
         this.mapper = mapper;
         this.validator = validator;
+        this.shippingOrderRepository = shippingOrderRepository;
     }
 
     @Override
@@ -40,9 +44,19 @@ public class ReceiverService implements IReceiverService {
     }
 
     @Override
-    public Page<Receiver> getReceiverByShopOwnerId(Integer shopOwnerId,int pageNumber, int pageSize){
+    public Page<ReceiverWithOrders> getReceiverByShopOwnerId(Integer shopOwnerId, int pageNumber, int pageSize, String keyWord){
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return receiverRepository.getReceiversByShopOwnerId(shopOwnerId, pageRequest);
+        Page<Receiver> receiverPage = receiverRepository.getReceiversByShopOwnerId(shopOwnerId, pageRequest, keyWord);
+        List<ReceiverWithOrders> receiversWithOrders = new ArrayList<>();
+        for(Receiver receiver : receiverPage.getContent()){
+            ReceiverWithOrders receiverWithOrders = new ReceiverWithOrders(receiver);
+            int numberOfOrders = shippingOrderRepository.countShippingOrdersByReceiverId(receiver.getId());
+            int successfulOrders = shippingOrderRepository.countSuccessfulShippingOrdersByReceiverId(receiver.getId());
+            receiverWithOrders.setNumberOfOrders(numberOfOrders);
+            receiverWithOrders.setSuccessfulOrders(successfulOrders);
+            receiversWithOrders.add(receiverWithOrders);
+        }
+        return new PageImpl<>(receiversWithOrders, pageRequest, receiverPage.getTotalElements());
     };
 
     @Override
