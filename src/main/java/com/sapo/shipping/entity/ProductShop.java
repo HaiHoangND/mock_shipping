@@ -21,6 +21,9 @@ public class ProductShop implements Serializable {
     private Float weight;
     private String description;
 
+    @Column(name = "product_code")
+    private String productCode;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "shop_owner_id")

@@ -23,5 +23,4 @@ public class UserDto {
     private String profilePicture;
     private boolean workingStatus;
     private List<Receiver> receivers;
-    private List<ProductShop> productShops;
 }

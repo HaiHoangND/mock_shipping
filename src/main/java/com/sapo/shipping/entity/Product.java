@@ -21,6 +21,9 @@ public class Product implements Serializable {
     private Float weight;
     private String description;
 
+    @Column(name = "product_code")
+    private String productCode;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")

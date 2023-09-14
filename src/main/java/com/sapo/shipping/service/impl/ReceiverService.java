@@ -8,6 +8,8 @@ import com.sapo.shipping.repository.ReceiverRepository;
 import com.sapo.shipping.service.IReceiverService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +38,12 @@ public class ReceiverService implements IReceiverService {
         return receiverRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Receiver not found"));
     }
+
+    @Override
+    public Page<Receiver> getReceiverByShopOwnerId(Integer shopOwnerId,int pageNumber, int pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return receiverRepository.getReceiversByShopOwnerId(shopOwnerId, pageRequest);
+    };
 
     @Override
     @Transactional(rollbackOn = Exception.class)

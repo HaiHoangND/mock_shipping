@@ -1,6 +1,7 @@
 package com.sapo.shipping.dto;
 
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -24,6 +25,7 @@ public class ProductDto {
     @NotNull(message = "Weight must not be empty")
     private Float weight;
     private String description;
+    private String productCode;
 
     private int shippingOrderId;
 }
