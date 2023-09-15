@@ -6,6 +6,7 @@ import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,22 +45,43 @@ public class AuthService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .id(user.getId())
-                .accessToken(jwtToken)
-                .userName(user.getFullName())
-                .profilePicture(user.getProfilePicture())
-                .role(user.getRole())
-                .build();
+        try {
+            var res =authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            var user = repository.findByEmail(request.getEmail())
+                    .orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                    .type("success")
+                    .message("Đăng nhập thành công")
+                    .id(user.getId())
+                    .accessToken(jwtToken)
+                    .userName(user.getFullName())
+                    .profilePicture(user.getProfilePicture())
+                    .role(user.getRole())
+                    .build();
+        } catch (BadCredentialsException e) {
+            System.out.println(e);
+            var user = repository.findByEmail(request.getEmail());
+            if (!user.isPresent()) {
+                // Tên người dùng không tồn tại
+                return AuthenticationResponse.builder()
+                        .type("failed")
+                        .message("Email không tồn tại")
+                        .build();
+            } else {
+                // Mật khẩu không chính xác
+                return AuthenticationResponse.builder()
+                        .type("failed")
+                        .message("Sai mật khẩu")
+                        .build();
+            }
+        }
+
     }
 
 }
