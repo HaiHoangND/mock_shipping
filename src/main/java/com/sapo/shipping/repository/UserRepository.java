@@ -24,9 +24,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "          EXISTS (SELECT 1 FROM OrderStatus os2 WHERE os2.status IN ('Giao hàng thành công','Đơn hủy') AND os2.shipper.id = :shipperId)" +
             "       ) " +
             "       WHEN 'unSuccessful' THEN " +
-            "           (os.status IN ('Đang lấy hàng','Lấy hàng thành công','Đang giao hàng') AND os.shipper.id = :shipperId AND os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id))" +
+            "           (os.status IN ('Đang lấy hàng','Lấy hàng thành công','Đang giao hàng') AND os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id))" +
             "    END " +
-            ")")
+            ") AND os.shipper.id = :shipperId")
     List<ShippingOrder> getFilteredShippingOrders(@Param("shipperId") Integer shipperId, @Param("statusFilter") String statusFilter);
 
     Optional<User> findByEmail(String email);
