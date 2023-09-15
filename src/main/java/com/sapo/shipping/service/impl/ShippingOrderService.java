@@ -78,8 +78,8 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
-    public List<MonthProfit> statisticRevenueOfYear(Integer year){
-        return shippingOrderRepository.statisticRevenueOfYear(year);
+    public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year){
+        return shippingOrderRepository.statisticRevenueOfYear(month,year);
     };
 
     @Override
