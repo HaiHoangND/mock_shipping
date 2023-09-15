@@ -30,4 +30,6 @@ public interface IUserService {
 
     Page<User> getAllShopOwners(int pageNumber, int pageSize, String keyWord);
 
+    List<User> getAllShopOwnerNoPage();
+
 }

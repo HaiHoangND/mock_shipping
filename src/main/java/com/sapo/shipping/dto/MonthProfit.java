@@ -9,12 +9,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class MonthProfit {
-    private Date date;
+    private int date;
     private double profit;
-    private String dateStr;
-
-    public MonthProfit(Date date, double profit) {
-        this.date = date;
-        this.profit = profit;
-    }
 }

@@ -65,19 +65,19 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     )
     Double getTotalRevenueForDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
 
-    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(DATE(so.updatedAt), SUM(so.serviceFee)) " +
-            "FROM ShippingOrder so " +
-            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
-            "WHERE os.id IN (" +
-            "    SELECT MAX(os2.id) " +
-            "    FROM OrderStatus os2 " +
-            "    GROUP BY os2.shippingOrder.id " +
-            ")" +
-            "AND os.status = 'Đã đưa tiền cho chủ shop' " +
-            "AND YEAR(so.updatedAt) = :year " +
-            "AND MONTH(so.updatedAt) = :month " +
-            "GROUP BY DATE(so.updatedAt)")
-    List<MonthProfit> statisticRevenueOfYear(@Param("month") Integer month, @Param("year") Integer year);
+//    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(DATE(so.updatedAt), SUM(so.serviceFee)) " +
+//            "FROM ShippingOrder so " +
+//            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+//            "WHERE os.id IN (" +
+//            "    SELECT MAX(os2.id) " +
+//            "    FROM OrderStatus os2 " +
+//            "    GROUP BY os2.shippingOrder.id " +
+//            ")" +
+//            "AND os.status = 'Đã đưa tiền cho chủ shop' " +
+//            "AND YEAR(so.updatedAt) = :year " +
+//            "AND MONTH(so.updatedAt) = :month " +
+//            "GROUP BY DATE(so.updatedAt)")
+//    List<MonthProfit> statisticRevenueOfYear(@Param("month") Integer month, @Param("year") Integer year);
 
     @Query("SELECT so FROM ShippingOrder so WHERE so.shopOwner.id = :shopOwnerId AND (:orderCode IS NULL OR so.orderCode LIKE %:orderCode%) ORDER BY so.updatedAt DESC")
     Page<ShippingOrder> getShippingOrderByShopOwner(@Param("shopOwnerId") Integer shopOwnerId, PageRequest pageRequest, @Param("orderCode") String orderCode);

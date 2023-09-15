@@ -40,4 +40,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.role = 'SHOP' AND (:keyWord IS NULL OR CONCAT(u.email, u.address, u.fullName, u.phone, cast(u.role AS STRING), u.gender) LIKE %:keyWord%)")
     Page<User> getAllShopOwners(PageRequest pageRequest, @Param("keyWord") String keyWord);
 
+    @Query("SELECT u FROM User u WHERE u.role = 'SHOP'")
+    List<User> getAllShopOwnerNoPage();
+
 }

@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,10 +82,16 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        List<MonthProfit> monthProfits = shippingOrderRepository.statisticRevenueOfYear(month,year);
-        for (MonthProfit monthProfit : monthProfits) {
-            monthProfit.setDateStr(dateFormat.format(monthProfit.getDate()));
+        YearMonth yearMonthObject = YearMonth.of(year, month);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        List<MonthProfit> monthProfits = new ArrayList<>();
+
+        for(int day = 1; day <= daysInMonth; day++){
+            MonthProfit monthProfit = new MonthProfit();
+            Double profit = shippingOrderRepository.getTotalRevenueForDay(day, month, year);
+            monthProfit.setDate(day);
+            monthProfit.setProfit(profit == null ? 0.0 : profit);
+            monthProfits.add(monthProfit);
         }
         return monthProfits;
     };

@@ -55,8 +55,13 @@ public class UserController {
             return GeneralResponse.ok("success",
                     "Successfully fetched",
                     userService.getFilteredShippingOrders(shipperId,statusFilter));
+    }
 
-
+    @GetMapping("/getAllShopOwnerNoPage")
+    GeneralResponse<?> getAllShopOwnerNoPage( ) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                userService.getAllShopOwnerNoPage());
     }
 
     @GetMapping("/getShippersWithStatus")

@@ -100,6 +100,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<User> getAllShopOwnerNoPage(){
+        return userRepository.getAllShopOwnerNoPage();
+    }
+
+    @Override
     @Transactional(rollbackOn = Exception.class)
     public User update(int id, UserDto userDto) {
         List<String> errors = new ArrayList<>();
