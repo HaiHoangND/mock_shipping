@@ -5,6 +5,7 @@ import com.sapo.shipping.dto.ProductShopDto;
 import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.ProductShop;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface IProductShopService {
     Page<ProductShop> getProductShopsByShopOwnerId(Integer shopOwnerId, int pageNumber, int pageSize, String keyWord);
 
     Boolean checkNotExistedProductCode(Integer shopOwnerId, String productCode);
+
+    List<ProductShop> getAllProductShopsByShopOwnerIdNoPage(Integer shopOwnerId);
 }

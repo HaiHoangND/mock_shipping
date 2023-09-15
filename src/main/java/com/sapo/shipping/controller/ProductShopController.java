@@ -38,6 +38,13 @@ public class ProductShopController {
                 productShopService.getProductShopsByShopOwnerId(shopOwnerId, pageNumber, pageSize, keyWord));
     }
 
+    @GetMapping("/getByShopOwnerIdNoPage")
+    GeneralResponse<?> getByShopOwnerIdNoPage(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                productShopService.getAllProductShopsByShopOwnerIdNoPage(shopOwnerId));
+    }
+
     @GetMapping("/checkNotExistedProductCode")
     GeneralResponse<?> checkNotExistedProductCode(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam(name = "productCode") String productCode) {
         try {

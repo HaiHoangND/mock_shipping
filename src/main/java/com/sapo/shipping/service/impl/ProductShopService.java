@@ -78,6 +78,11 @@ public class ProductShopService implements IProductShopService {
     }
 
     @Override
+    public List<ProductShop> getAllProductShopsByShopOwnerIdNoPage(Integer shopOwnerId){
+        return productShopRepository.getAllProductShopsByShopOwnerIdNoPage(shopOwnerId);
+    }
+
+    @Override
     @Transactional(rollbackOn = Exception.class)
     public ProductShop update(int id, ProductShopDto productShopDto) {
         List<String> errors = new ArrayList<>();
