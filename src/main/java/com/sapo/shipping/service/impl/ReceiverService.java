@@ -72,7 +72,7 @@ public class ReceiverService implements IReceiverService {
         String address = receiverDto.getAddress();
         int shopOwnerId = receiverDto.getShopOwnerId();
         if(receiverRepository.findByPhoneAndAddress(phone, address, shopOwnerId) != null){
-            throw new BusinessException("400", "error", "Receiver existed");
+            throw new BusinessException("400", "error", "Khách hàng đã tồn tại trong danh sách");
         }
         Receiver receiver = mapper.createEntity(receiverDto);
         return receiverRepository.save(receiver);
