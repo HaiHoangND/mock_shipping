@@ -65,7 +65,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     )
     Double getTotalRevenueForDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
 
-    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(MONTH(so.updatedAt), SUM(so.serviceFee)) " +
+    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(DATE(so.updatedAt), SUM(so.serviceFee)) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
             "WHERE os.id IN (" +
@@ -75,8 +75,9 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             ")" +
             "AND os.status = 'Đã đưa tiền cho chủ shop' " +
             "AND YEAR(so.updatedAt) = :year " +
-            "GROUP BY MONTH(so.updatedAt)")
-    List<MonthProfit> statisticRevenueOfYear(@Param("year") Integer year);
+            "AND MONTH(so.updatedAt) = :month " +
+            "GROUP BY DATE(so.updatedAt)")
+    List<MonthProfit> statisticRevenueOfYear(@Param("month") Integer month, @Param("year") Integer year);
 
     @Query("SELECT so FROM ShippingOrder so WHERE so.shopOwner.id = :shopOwnerId AND (:orderCode IS NULL OR so.orderCode LIKE %:orderCode%) ORDER BY so.updatedAt DESC")
     Page<ShippingOrder> getShippingOrderByShopOwner(@Param("shopOwnerId") Integer shopOwnerId, PageRequest pageRequest, @Param("orderCode") String orderCode);
