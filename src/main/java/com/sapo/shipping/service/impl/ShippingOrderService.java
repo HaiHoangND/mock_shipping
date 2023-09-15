@@ -16,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -79,7 +81,12 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year){
-        return shippingOrderRepository.statisticRevenueOfYear(month,year);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<MonthProfit> monthProfits = shippingOrderRepository.statisticRevenueOfYear(month,year);
+        for (MonthProfit monthProfit : monthProfits) {
+            monthProfit.setDateStr(dateFormat.format(monthProfit.getDate()));
+        }
+        return monthProfits;
     };
 
     @Override
