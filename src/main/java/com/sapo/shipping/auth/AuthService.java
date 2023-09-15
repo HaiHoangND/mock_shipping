@@ -2,12 +2,15 @@ package com.sapo.shipping.auth;
 
 import com.sapo.shipping.config.JwtService;
 import com.sapo.shipping.entity.User;
+import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -19,6 +22,10 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        Optional<User> existingUser = repository.findByEmail(request.getEmail());
+        if(existingUser.isPresent()){
+            throw new BusinessException("400", "error", "Email đã tồn tại");
+        }
         var user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
