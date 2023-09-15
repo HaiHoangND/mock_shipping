@@ -16,10 +16,12 @@ public interface ProductShopMapper extends GenericMapper<ProductShopDto, Product
 
     @Override
     @Mapping(source = "shopOwnerId", target = "shopOwner.id")
+    @Mapping(source = "productCode", target = "productCode")
     ProductShop createEntity(ProductShopDto dto);
 
     @Override
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "shopOwnerId", target = "shopOwner.id")
+    @Mapping(source = "productCode", target = "productCode")
     void updateEntity(@MappingTarget ProductShop entity, ProductShopDto dto);
 }
