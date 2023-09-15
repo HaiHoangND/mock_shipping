@@ -31,6 +31,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String email);
 
+    User findByPhone(String phone);
+
     @Query("SELECT u FROM User u WHERE u.role = 'SHIPPER' AND u.workingStatus = true")
     List<User> getAllAvailableShippers();
 

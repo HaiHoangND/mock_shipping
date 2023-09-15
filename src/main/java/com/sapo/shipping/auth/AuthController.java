@@ -33,10 +33,15 @@ public class AuthController {
             @RequestBody RegisterRequest request
     ) {
         Optional<User> existingUser = repository.findByEmail(request.getEmail());
+        var phone  =repository.findByPhone(request.getPhone());
         if(existingUser.isPresent()){
             return GeneralResponse.failed("failed",
                     "Tài khoản đã tồn tại");
 
+        }
+        if(phone != null){
+            return GeneralResponse.failed("failed",
+                    "Số điện thoại đã được đăng ký");
         }
         return GeneralResponse.ok("success",
                 "Successfully fetched",service.register(request));
