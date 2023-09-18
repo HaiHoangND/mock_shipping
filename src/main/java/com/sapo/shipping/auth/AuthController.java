@@ -25,14 +25,20 @@ public class AuthController {
     public GeneralResponse<?> register(
             @RequestBody RegisterRequest request
     ) {
-        return GeneralResponse.ok("success",
-                "Successfully fetched",service.register(request));
+        try{
+            return GeneralResponse.ok("success", "Successfully fetched",service.register(request));
+        }catch (Exception e) {
+            return GeneralResponse.failed("failed", e.getMessage());
+        }
     }
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
-    ) {
-        return ResponseEntity.ok(service.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        try {
+            return ResponseEntity.ok(service.authenticate(request));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
 
