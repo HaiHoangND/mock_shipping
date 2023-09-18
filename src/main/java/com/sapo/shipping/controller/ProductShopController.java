@@ -57,9 +57,7 @@ public class ProductShopController {
     @PostMapping
     GeneralResponse<?> createProductShop(@RequestBody ProductShopDto productShopDto) {
         try {
-            return GeneralResponse.ok("success",
-                    "Successfully created",
-                    productShopService.create(productShopDto));
+            return GeneralResponse.ok("success", "Successfully created", productShopService.create(productShopDto));
         }catch (Exception e){
             return GeneralResponse.failed("failed", e.getMessage());
         }
@@ -67,9 +65,11 @@ public class ProductShopController {
 
     @PutMapping("{id}")
     GeneralResponse<?> updateProductShop(@PathVariable int id, @RequestBody ProductShopDto productShopDto) {
-        return GeneralResponse.ok("success",
-                "Successfully created",
-                productShopService.update(id, productShopDto));
+        try{
+            return GeneralResponse.ok("success", "Successfully created", productShopService.update(id, productShopDto));
+        }catch (Exception e){
+            return GeneralResponse.failed("failed", e.getMessage());
+        }
     }
 
     @DeleteMapping("{id}")

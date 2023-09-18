@@ -93,6 +93,12 @@ public class ProductShopService implements IProductShopService {
         }
         ProductShop productShop = productShopRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("404", "error", "Product not found"));
+        String productCode = productShopDto.getProductCode();
+        int shopOwnerId = productShopDto.getShopOwnerId();
+        String error = "Mã sản phẩm " + productCode + " đã tồn tại";
+        if(productShopRepository.getProductShopByProductCodeAndShopOwnerId(shopOwnerId, productCode) != null){
+            throw new BusinessException("400", "error", error);
+        }
         mapper.updateEntity(productShop, productShopDto);
         return productShopRepository.save(productShop);
     }
