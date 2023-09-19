@@ -96,8 +96,7 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "AND so.shopOwner.id = :shopOwnerId " +
             "AND DAY(so.updatedAt) = :day " +
             "AND MONTH(so.updatedAt) = :month " +
-            "AND YEAR(so.updatedAt) = :year " +
-            "GROUP BY DATE(so.updatedAt)"
+            "AND YEAR(so.updatedAt) = :year "
     )
     List<ShippingOrder> getAccountedShippingOrdersByShopOwnerIdByDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year, @Param("shopOwnerId") Integer shopOwnerId);
 
