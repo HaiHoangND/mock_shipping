@@ -58,12 +58,13 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
             "    GROUP BY os2.shippingOrder.id " +
             ")" +
             "AND os.status = 'Đã đưa tiền cho chủ shop' " +
+            "AND (:shopOwnerId IS NULL OR so.shopOwner.id = :shopOwnerId)" +
             "AND DAY(so.updatedAt) = :day " +
             "AND MONTH(so.updatedAt) = :month " +
             "AND YEAR(so.updatedAt) = :year " +
             "GROUP BY DATE(so.updatedAt)"
     )
-    Double getTotalRevenueForDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
+    Double getTotalRevenueForDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year, @Param("shopOwnerId") Integer shopOwnerId);
 
 //    @Query("SELECT NEW com.sapo.shipping.dto.MonthProfit(DATE(so.updatedAt), SUM(so.serviceFee)) " +
 //            "FROM ShippingOrder so " +

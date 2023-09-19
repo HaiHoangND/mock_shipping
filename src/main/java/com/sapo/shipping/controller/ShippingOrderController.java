@@ -75,10 +75,16 @@ public class ShippingOrderController {
                 "Successfully fetched", shippingOrderService.countShippingOrdersAreDelivering());
     }
 
-    @GetMapping("/statisticMonth")
+    @GetMapping("/statisticMonthForAdmin")
     GeneralResponse<?> statisticMonth(@RequestParam(name = "month") Integer month,@RequestParam(name = "year") Integer year) {
         return GeneralResponse.ok("success",
-                "Successfully fetched", shippingOrderService.statisticRevenueOfYear(month, year));
+                "Successfully fetched", shippingOrderService.statisticRevenueOfYear(month, year, null));
+    }
+
+    @GetMapping("/statisticMonthForShop")
+    GeneralResponse<?> statisticMonth(@RequestParam(name = "month") Integer month,@RequestParam(name = "year") Integer year, @RequestParam Integer shopOwnerId) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched", shippingOrderService.statisticRevenueOfYear(month, year, shopOwnerId));
     }
 
     @GetMapping("/countSuccessfulShippingOrders")

@@ -81,14 +81,14 @@ public class ShippingOrderService implements IShippingOrderService {
     }
 
     @Override
-    public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year){
+    public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year, Integer shopOwnerId){
         YearMonth yearMonthObject = YearMonth.of(year, month);
         int daysInMonth = yearMonthObject.lengthOfMonth();
         List<MonthProfit> monthProfits = new ArrayList<>();
 
         for(int day = 1; day <= daysInMonth; day++){
             MonthProfit monthProfit = new MonthProfit();
-            Double profit = shippingOrderRepository.getTotalRevenueForDay(day, month, year);
+            Double profit = shippingOrderRepository.getTotalRevenueForDay(day, month, year, shopOwnerId);
             monthProfit.setDate(day);
             monthProfit.setProfit(profit == null ? 0.0 : profit);
             monthProfits.add(monthProfit);
@@ -108,7 +108,7 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public Double getTotalRevenueForDay(Integer day, Integer month, Integer year){
-        return shippingOrderRepository.getTotalRevenueForDay(day, month, year);
+        return shippingOrderRepository.getTotalRevenueForDay(day, month, year, null);
     };
 
     @Override
