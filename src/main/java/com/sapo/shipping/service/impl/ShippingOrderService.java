@@ -76,19 +76,42 @@ public class ShippingOrderService implements IShippingOrderService {
     };
 
     @Override
-    public ShippingOrder findByCode(String orderCode) {
-        return shippingOrderRepository.findByCode(orderCode);
-    }
-
-    @Override
-    public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year, Integer shopOwnerId){
+    public List<MonthProfit> statisticRevenueOfMonth(Integer month, Integer year, Integer shopOwnerId){
         YearMonth yearMonthObject = YearMonth.of(year, month);
         int daysInMonth = yearMonthObject.lengthOfMonth();
         List<MonthProfit> monthProfits = new ArrayList<>();
 
         for(int day = 1; day <= daysInMonth; day++){
             MonthProfit monthProfit = new MonthProfit();
-            Double profit = shippingOrderRepository.getTotalRevenueForDay(day, month, year, shopOwnerId);
+            List<ShippingOrder> shippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerIdByDay(day, month, year, shopOwnerId);
+            Double revenue = 0.0;
+            for(ShippingOrder shippingOrder : shippingOrders){
+                List<Product> products = shippingOrder.getProducts();
+                for(Product product: products){
+                    revenue += product.getPrice() * product.getQuantity();
+                }
+            }
+            monthProfit.setDate(day);
+            monthProfit.setProfit(revenue);
+            monthProfits.add(monthProfit);
+        }
+        return monthProfits;
+    }
+
+    @Override
+    public ShippingOrder findByCode(String orderCode) {
+        return shippingOrderRepository.findByCode(orderCode);
+    }
+
+    @Override
+    public List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year){
+        YearMonth yearMonthObject = YearMonth.of(year, month);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        List<MonthProfit> monthProfits = new ArrayList<>();
+
+        for(int day = 1; day <= daysInMonth; day++){
+            MonthProfit monthProfit = new MonthProfit();
+            Double profit = shippingOrderRepository.getTotalRevenueForDay(day, month, year);
             monthProfit.setDate(day);
             monthProfit.setProfit(profit == null ? 0.0 : profit);
             monthProfits.add(monthProfit);
@@ -108,7 +131,7 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     public Double getTotalRevenueForDay(Integer day, Integer month, Integer year){
-        return shippingOrderRepository.getTotalRevenueForDay(day, month, year, null);
+        return shippingOrderRepository.getTotalRevenueForDay(day, month, year);
     };
 
     @Override

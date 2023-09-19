@@ -30,7 +30,9 @@ public interface IShippingOrderService {
 
     Double getTotalRevenueForDay(Integer day, Integer month, Integer year);
 
-    List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year, Integer shopOwnerId);
+    List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year);
+
+    List<MonthProfit> statisticRevenueOfMonth(Integer month, Integer year, Integer shopOwnerId);
 
     List<Object> coordinatorStatistic();
 
