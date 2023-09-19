@@ -1,6 +1,7 @@
 package com.sapo.shipping.repository;
 
 import com.sapo.shipping.dto.MonthProfit;
+import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

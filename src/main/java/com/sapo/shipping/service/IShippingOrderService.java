@@ -16,7 +16,7 @@ public interface IShippingOrderService {
 
     ShippingOrder getById(int id);
 
-    ShippingOrder create(ShippingOrderDto shippingOrderDto);
+    int create(ShippingOrderDto shippingOrderDto);
 
     ShippingOrder update(int id, ShippingOrderDto shippingOrderDto);
 

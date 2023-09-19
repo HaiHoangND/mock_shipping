@@ -165,7 +165,8 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public ShippingOrder create(ShippingOrderDto shippingOrderDto) {
+    public int create(ShippingOrderDto shippingOrderDto) {
+        System.out.println(shippingOrderDto.getId()+"Dto đây");
         List<String> errors = new ArrayList<>();
         validator.validate(shippingOrderDto)
                 .forEach(e -> errors.add(e.getMessage()));
@@ -173,7 +174,9 @@ public class ShippingOrderService implements IShippingOrderService {
             throw new BusinessException("400", "error", errors.get(0));
         }
         ShippingOrder shippingOrder = mapper.createEntity(shippingOrderDto);
-        return shippingOrderRepository.save(shippingOrder);
+        System.out.println(shippingOrder+ "shipping đây");
+        shippingOrderRepository.save(shippingOrder);
+        return shippingOrder.getId();
     }
 
     @Override

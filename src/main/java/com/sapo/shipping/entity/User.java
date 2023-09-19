@@ -3,17 +3,12 @@ package com.sapo.shipping.entity;
 
 import com.sapo.shipping.auth.permission.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Entity
 @Data
@@ -21,6 +16,7 @@ import java.util.Optional;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +40,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthorities();
-//        return null;
+       Set<GrantedAuthority> authorities = new HashSet<>();
+       authorities.add(new SimpleGrantedAuthority("ROLE_"+this.getRole().name()));
+    return authorities;
     }
 
     @Override
