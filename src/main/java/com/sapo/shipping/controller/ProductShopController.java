@@ -5,6 +5,7 @@ import com.sapo.shipping.dto.ProductShopDto;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.ProductService;
 import com.sapo.shipping.service.impl.ProductShopService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class ProductShopController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> getAllProductShops() {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -24,6 +26,7 @@ public class ProductShopController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> getProductShopById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -31,6 +34,7 @@ public class ProductShopController {
     }
 
     @GetMapping("/getByShopOwnerId")
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
                                         @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
         return GeneralResponse.ok("success",
@@ -39,6 +43,7 @@ public class ProductShopController {
     }
 
     @GetMapping("/getByShopOwnerIdNoPage")
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> getByShopOwnerIdNoPage(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -46,6 +51,7 @@ public class ProductShopController {
     }
 
     @GetMapping("/checkNotExistedProductCode")
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> checkNotExistedProductCode(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam(name = "productCode") String productCode) {
         try {
             return GeneralResponse.ok("success", "Successfully fetched", productShopService.checkNotExistedProductCode(shopOwnerId, productCode));
@@ -55,6 +61,7 @@ public class ProductShopController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> createProductShop(@RequestBody ProductShopDto productShopDto) {
         try {
             return GeneralResponse.ok("success", "Successfully created", productShopService.create(productShopDto));
@@ -64,6 +71,7 @@ public class ProductShopController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> updateProductShop(@PathVariable int id, @RequestBody ProductShopDto productShopDto) {
         try{
             return GeneralResponse.ok("success", "Successfully created", productShopService.update(id, productShopDto));
@@ -73,6 +81,7 @@ public class ProductShopController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('SHOP')")
     GeneralResponse<?> deleteProductShopById(@PathVariable int id){
         return GeneralResponse.ok("success",
                 "Successfully deleted",

@@ -3,6 +3,7 @@ package com.sapo.shipping.controller;
 import com.sapo.shipping.dto.OrderStatusDto;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.OrderStatusService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,8 @@ public class OrderStatusController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getOrderStatusById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -22,6 +25,8 @@ public class OrderStatusController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> createOrderStatus(@RequestBody OrderStatusDto orderStatusDto) {
         return GeneralResponse.ok("success",
                 "Successfully created",
@@ -29,6 +34,8 @@ public class OrderStatusController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> updateOrderStatus(@PathVariable int id, @RequestBody OrderStatusDto orderStatusDto) {
         return GeneralResponse.ok("success",
                 "Successfully created",
@@ -36,6 +43,8 @@ public class OrderStatusController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> deleteOrderStatusById(@PathVariable int id){
         return GeneralResponse.ok("success",
                 "Successfully deleted",

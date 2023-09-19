@@ -11,10 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.sapo.shipping.auth.permission.Role.ADMIN;
-import static com.sapo.shipping.auth.permission.Role.COORDINATOR;
-import static com.sapo.shipping.auth.permission.Role.SHIPPER;
-import static com.sapo.shipping.auth.permission.Role.SHOP;
 
 
 @Configuration
@@ -25,7 +21,6 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-//    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,8 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/**",
-//                        "/api/authenticate",
-//                        "/api/register",
+                        "/api/authenticate",
+                        "/api/register",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -51,12 +46,6 @@ public class SecurityConfig {
                         "/swagger-ui.html"
                 )
                 .permitAll()
-
-                 //phân quyền
-//                .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-//                .requestMatchers("/api/user/getFilterShippingOrders/**").hasRole(SHIPPER.name())
-
-
                 .anyRequest()
                 .authenticated()
                 .and()

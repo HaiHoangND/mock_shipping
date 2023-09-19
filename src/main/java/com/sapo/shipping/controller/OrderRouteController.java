@@ -5,6 +5,7 @@ import com.sapo.shipping.dto.ProductDto;
 import com.sapo.shipping.entity.OrderRoute;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.OrderRouteService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,8 @@ public class OrderRouteController {
         this.orderRouteService = orderRouteService;
     }
     @GetMapping
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getAllOrderRoutes() {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -23,6 +26,8 @@ public class OrderRouteController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getOrderRouteById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -30,6 +35,8 @@ public class OrderRouteController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> createOrderRoute(@RequestBody OrderRouteDto orderRouteDto) {
         return GeneralResponse.ok("success",
                 "Successfully created",
@@ -37,12 +44,16 @@ public class OrderRouteController {
     }
 
     @GetMapping("/getRouteByOrderAndRoute")
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getRouteByOrderAndRoute(@RequestParam(name = "orderId") Integer orderId, @RequestParam(name = "routeId") Integer routeId) {
         return GeneralResponse.ok("success",
                 "Successfully fetched", orderRouteService.getRouteByOrderIdAndRouteId(orderId,routeId));
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> updateOrderRoute(@PathVariable int id, @RequestBody OrderRouteDto orderRouteDto) {
         return GeneralResponse.ok("success",
                 "Successfully created",
