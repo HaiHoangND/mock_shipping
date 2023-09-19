@@ -96,7 +96,8 @@ public class ProductShopService implements IProductShopService {
         String productCode = productShopDto.getProductCode();
         int shopOwnerId = productShopDto.getShopOwnerId();
         String error = "Mã sản phẩm " + productCode + " đã tồn tại";
-        if(productShopRepository.getProductShopByProductCodeAndShopOwnerId(shopOwnerId, productCode) != null){
+        ProductShop productShop1 = productShopRepository.getProductShopByProductCodeAndShopOwnerId(shopOwnerId, productCode);
+        if(productShop1 != null && productShop1.getId() == id){
             throw new BusinessException("400", "error", error);
         }
         mapper.updateEntity(productShop, productShopDto);
