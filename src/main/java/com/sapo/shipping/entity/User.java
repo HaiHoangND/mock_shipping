@@ -42,8 +42,6 @@ public class User implements UserDetails {
     @Column(name = "working_status")
     private boolean workingStatus;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "shopOwner",cascade = CascadeType.ALL)
-    private List<Receiver> receiverList;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

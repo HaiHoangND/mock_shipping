@@ -31,8 +31,6 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/user/**",
-                        "/api/productShop/**",
                         "/api/authenticate",
                         "/api/register",
                         "/v2/api-docs",

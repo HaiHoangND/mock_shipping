@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/shipping
+    url: jdbc:mysql://localhost:3306/shipping_2
     username: root
-   password: dnALIEN111000
+    password: dnALIEN111000
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
