@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/shipping
     username: root
-#    password: 123456789
+    password: dnALIEN111000
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
