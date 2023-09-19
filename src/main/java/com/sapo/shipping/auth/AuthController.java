@@ -47,10 +47,13 @@ public class AuthController {
                 "Successfully fetched",service.register(request));
     }
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
-    ) {
-        return ResponseEntity.ok(service.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        try {
+            return ResponseEntity.ok(service.authenticate(request));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
 
