@@ -32,6 +32,8 @@ public interface IShippingOrderService {
 
     List<MonthProfit> statisticRevenueOfYear(Integer month, Integer year);
 
+    List<MonthProfit> statisticRevenueOfMonth(Integer month, Integer year, Integer shopOwnerId);
+
     List<Object> coordinatorStatistic();
 
     Page<ShippingOrder> getShippingOrderByShopOwner(Integer shopOwnerId, int pageNumber, int pageSize, String orderCode);
