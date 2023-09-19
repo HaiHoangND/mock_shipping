@@ -15,6 +15,7 @@ import static com.sapo.shipping.auth.permission.Role.ADMIN;
 import static com.sapo.shipping.auth.permission.Role.COORDINATOR;
 import static com.sapo.shipping.auth.permission.Role.SHIPPER;
 import static com.sapo.shipping.auth.permission.Role.SHOP;
+import static org.springframework.http.HttpMethod.GET;
 
 
 @Configuration
@@ -36,9 +37,9 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/**",
-//                        "/api/authenticate",
-//                        "/api/register",
+//                        "/api/**",
+                        "/api/authenticate",
+                        "/api/register",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -53,8 +54,12 @@ public class SecurityConfig {
                 .permitAll()
 
                  //phân quyền
-//                .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+
+                // quyền của shipper:
 //                .requestMatchers("/api/user/getFilterShippingOrders/**").hasRole(SHIPPER.name())
+//                .requestMatchers(GET,"/api/user/{id}").hasAnyRole(SHIPPER.name(), SHOP.name(), COORDINATOR.name())
+
+//                .requestMatchers("/api/**").hasRole(ADMIN.name())
 
 
                 .anyRequest()

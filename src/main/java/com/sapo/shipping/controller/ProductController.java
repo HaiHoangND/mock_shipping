@@ -3,6 +3,7 @@ package com.sapo.shipping.controller;
 import com.sapo.shipping.dto.ProductDto;
 import com.sapo.shipping.response.GeneralResponse;
 import com.sapo.shipping.service.impl.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,8 @@ public class ProductController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getAllProducts() {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -22,6 +25,8 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getProductById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -29,6 +34,8 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> createProduct(@RequestBody ProductDto productDto) {
         return GeneralResponse.ok("success",
                 "Successfully created",
@@ -36,6 +43,8 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> updateProduct(@PathVariable int id, @RequestBody ProductDto productDto) {
         return GeneralResponse.ok("success",
                 "Successfully created",
@@ -43,6 +52,8 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('SHOP') " +
+            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> deleteProductById(@PathVariable int id){
         return GeneralResponse.ok("success",
                 "Successfully deleted",

@@ -46,8 +46,8 @@ public class User implements UserDetails {
     private List<Receiver> receiverList;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return role.getAuthorities();
-        return null;
+        return role.getAuthorities();
+//        return null;
     }
 
     @Override
