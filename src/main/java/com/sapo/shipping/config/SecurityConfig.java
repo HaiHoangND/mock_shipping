@@ -11,11 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.sapo.shipping.auth.permission.Role.ADMIN;
-import static com.sapo.shipping.auth.permission.Role.COORDINATOR;
-import static com.sapo.shipping.auth.permission.Role.SHIPPER;
-import static com.sapo.shipping.auth.permission.Role.SHOP;
-import static org.springframework.http.HttpMethod.GET;
 
 
 @Configuration
@@ -26,7 +21,6 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-//    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +31,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
-//                        "/api/**",
+                        "/api/**",
                         "/api/authenticate",
                         "/api/register",
                         "/v2/api-docs",
@@ -52,16 +46,6 @@ public class SecurityConfig {
                         "/swagger-ui.html"
                 )
                 .permitAll()
-
-                 //phân quyền
-
-                // quyền của shipper:
-//                .requestMatchers("/api/user/getFilterShippingOrders/**").hasRole(SHIPPER.name())
-//                .requestMatchers(GET,"/api/user/{id}").hasAnyRole(SHIPPER.name(), SHOP.name(), COORDINATOR.name())
-
-//                .requestMatchers("/api/**").hasRole(ADMIN.name())
-
-
                 .anyRequest()
                 .authenticated()
                 .and()
