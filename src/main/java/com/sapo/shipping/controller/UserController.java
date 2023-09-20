@@ -94,9 +94,21 @@ public class UserController {
 //    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
 //            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> updateUser(@PathVariable int id, @RequestBody UserDto userDto) {
-        return GeneralResponse.ok("success",
-                "Successfully created",
-                userService.update(id, userDto));
+        try {
+            return GeneralResponse.ok("success", "Successfully created", userService.update(id, userDto));
+        }catch (Exception e) {
+            return GeneralResponse.failed("failed", e.getMessage());
+        }
+    }
+
+    @PutMapping("/updatePassword")
+//    @PreAuthorize("hasRole('ADMIN')")
+    GeneralResponse<?> updatePassword(@RequestParam int id, @RequestParam(required = false) String password) {
+        try {
+            return GeneralResponse.ok("success", "Successfully updated", userService.updatePassword(id, password));
+        }catch (Exception e) {
+            return GeneralResponse.failed("failed", e.getMessage());
+        }
     }
 
     @DeleteMapping("{id}")

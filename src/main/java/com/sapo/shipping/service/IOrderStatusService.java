@@ -6,7 +6,7 @@ import com.sapo.shipping.entity.OrderStatus;
 public interface IOrderStatusService {
     OrderStatus getById(int id);
 
-    OrderStatus create(OrderStatusDto orderStatusDto);
+    int create(OrderStatusDto orderStatusDto);
 
     OrderStatus update(int id, OrderStatusDto orderStatusDto);
 

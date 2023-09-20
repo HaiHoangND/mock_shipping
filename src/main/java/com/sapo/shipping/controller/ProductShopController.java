@@ -18,7 +18,7 @@ public class ProductShopController {
     }
 
     @GetMapping
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> getAllProductShops() {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -26,7 +26,7 @@ public class ProductShopController {
     }
 
     @GetMapping("{id}")
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> getProductShopById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -34,7 +34,7 @@ public class ProductShopController {
     }
 
     @GetMapping("/getByShopOwnerId")
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
                                         @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
         return GeneralResponse.ok("success",
@@ -43,7 +43,7 @@ public class ProductShopController {
     }
 
     @GetMapping("/getByShopOwnerIdNoPage")
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> getByShopOwnerIdNoPage(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
@@ -51,7 +51,7 @@ public class ProductShopController {
     }
 
     @GetMapping("/checkNotExistedProductCode")
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> checkNotExistedProductCode(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam(name = "productCode") String productCode) {
         try {
             return GeneralResponse.ok("success", "Successfully fetched", productShopService.checkNotExistedProductCode(shopOwnerId, productCode));
@@ -61,7 +61,7 @@ public class ProductShopController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> createProductShop(@RequestBody ProductShopDto productShopDto) {
         try {
             return GeneralResponse.ok("success", "Successfully created", productShopService.create(productShopDto));
@@ -71,7 +71,7 @@ public class ProductShopController {
     }
 
     @PutMapping("{id}")
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> updateProductShop(@PathVariable int id, @RequestBody ProductShopDto productShopDto) {
         try{
             return GeneralResponse.ok("success", "Successfully created", productShopService.update(id, productShopDto));
@@ -81,7 +81,7 @@ public class ProductShopController {
     }
 
     @DeleteMapping("{id}")
-//    @PreAuthorize("hasRole('SHOP')")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> deleteProductShopById(@PathVariable int id){
         return GeneralResponse.ok("success",
                 "Successfully deleted",

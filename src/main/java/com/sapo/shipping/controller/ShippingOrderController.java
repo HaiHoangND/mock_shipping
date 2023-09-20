@@ -121,7 +121,7 @@ public class ShippingOrderController {
 
         @PostMapping
         @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
-                        "or hasRole('COORDINATOR') or hasRole('ADMIN')")
+                "or hasRole('COORDINATOR') or hasRole('ADMIN')")
         GeneralResponse<?> createShippingOrder(@RequestBody ShippingOrderDto shippingOrderDto) {
                 return GeneralResponse.ok("success",
                                 "Successfully created",

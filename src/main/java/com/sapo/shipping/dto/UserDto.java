@@ -1,5 +1,6 @@
 package com.sapo.shipping.dto;
 
+import com.sapo.shipping.auth.permission.Role;
 import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.ProductShop;
 import com.sapo.shipping.entity.Receiver;

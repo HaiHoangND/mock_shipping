@@ -32,4 +32,6 @@ public interface IUserService {
 
     List<User> getAllShopOwnerNoPage();
 
+    User updatePassword(int id, String password);
+
 }

@@ -34,7 +34,7 @@ public class OrderStatusService implements IOrderStatusService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public OrderStatus create(OrderStatusDto orderStatusDto) {
+    public int create(OrderStatusDto orderStatusDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(orderStatusDto)
                 .forEach(e -> errors.add(e.getMessage()));
@@ -42,7 +42,8 @@ public class OrderStatusService implements IOrderStatusService {
             throw new BusinessException("400", "error", errors.get(0));
         }
         OrderStatus orderStatus = mapper.createEntity(orderStatusDto);
-        return orderStatusRepository.save(orderStatus);
+        orderStatusRepository.save(orderStatus);
+        return orderStatus.getId();
     }
 
     @Override

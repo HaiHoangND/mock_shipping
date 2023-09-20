@@ -1,5 +1,6 @@
 package com.sapo.shipping.config;
 
+import com.sapo.shipping.entity.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,12 +44,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         jwt = authHeader.substring(7);
         System.out.println(jwt);
-        userEmail = jwtService.extractUsername(jwt);   //extract userEmail from JWR token
+        userEmail = jwtService.extractUsername(jwt);//extract userEmail from JWR token
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails =this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -58,7 +58,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
-                System.out.println(authToken);
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

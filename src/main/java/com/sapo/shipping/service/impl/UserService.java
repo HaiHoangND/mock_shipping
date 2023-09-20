@@ -14,10 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -25,11 +27,12 @@ public class UserService implements IUserService {
     private final Validator validator;
     private final UserMapper mapper;
 
-
-    public UserService( UserRepository userRepository, Validator validator, UserMapper mapper) {
+    private final PasswordEncoder passwordEncoder;
+    public UserService( UserRepository userRepository, Validator validator, UserMapper mapper,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.validator = validator;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -114,15 +117,33 @@ public class UserService implements IUserService {
             throw new BusinessException("400", "error", errors.get(0));
         }
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("404", "error", "Order not found"));
+                .orElseThrow(() -> new BusinessException("404", "error", "User not found"));
+        Optional<User> checkEmailUser = userRepository.findByEmail(userDto.getEmail());
+        User checkPhoneUser = userRepository.findByPhone(userDto.getPhone());
+        if (checkEmailUser.isPresent() && checkEmailUser.get().getId() != id){
+            throw new BusinessException("400", "error", "Email đã tồn tại");
+        }
+        if (checkPhoneUser != null && checkPhoneUser.getId() != id){
+            throw new BusinessException("400", "error", "Số điện thoại đã tồn tại");
+        }
         mapper.updateEntity(user, userDto);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updatePassword(int id, String password){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("404", "error", "User not found"));
+        if(password != null){
+            user.setPassword(passwordEncoder.encode(password));
+        }
         return userRepository.save(user);
     }
 
     @Override
     public Boolean delete(int id) {
         userRepository.findById(id)
-                .orElseThrow(()-> new BusinessException("404", "error", "Order not found"));
+                .orElseThrow(()-> new BusinessException("404", "error", "User not found"));
         userRepository.deleteById(id);
         return true;
     }
