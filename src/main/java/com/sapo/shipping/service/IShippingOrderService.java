@@ -18,7 +18,7 @@ public interface IShippingOrderService {
 
     int create(ShippingOrderDto shippingOrderDto);
 
-    ShippingOrder update(int id, ShippingOrderDto shippingOrderDto);
+    int update(int id, ShippingOrderDto shippingOrderDto);
 
     Boolean delete(int id);
 

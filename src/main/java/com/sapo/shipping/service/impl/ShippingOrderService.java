@@ -181,7 +181,7 @@ public class ShippingOrderService implements IShippingOrderService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public ShippingOrder update(int id, ShippingOrderDto shippingOrderDto) {
+    public int update(int id, ShippingOrderDto shippingOrderDto) {
         List<String> errors = new ArrayList<>();
         validator.validate(shippingOrderDto)
                 .forEach(e -> errors.add(e.getMessage()));
@@ -191,7 +191,8 @@ public class ShippingOrderService implements IShippingOrderService {
         ShippingOrder shippingOrder = shippingOrderRepository.findById(id)
                 .orElseThrow(()-> new BusinessException("404", "error", "Order not found"));
         mapper.updateEntity(shippingOrder, shippingOrderDto);
-        return shippingOrderRepository.save(shippingOrder);
+        shippingOrderRepository.save(shippingOrder);
+        return shippingOrder.getId();
     }
 
     @Override
