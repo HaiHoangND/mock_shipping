@@ -39,8 +39,8 @@ public class ShippingOrderController {
         }
 
         @GetMapping("/getByCode")
-        @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
-                        "or hasRole('COORDINATOR') or hasRole('ADMIN')")
+//        @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+//                        "or hasRole('COORDINATOR') or hasRole('ADMIN')")
         GeneralResponse<?> getShippingOrderByOrderCode(@RequestParam(name = "orderCode") String orderCode) {
                 return GeneralResponse.ok("success",
                                 "Successfully fetched", shippingOrderService.findByCode(orderCode));

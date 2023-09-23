@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/api/order/getByCode",
                         "/api/authenticate",
                         "/api/register",
                         "/v2/api-docs",
