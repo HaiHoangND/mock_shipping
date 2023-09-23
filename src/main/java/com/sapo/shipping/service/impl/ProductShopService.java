@@ -61,8 +61,9 @@ public class ProductShopService implements IProductShopService {
         List<ProductWithSumSoldProduct> productWithSumSoldProductList = new ArrayList<>();
         for(ProductShop productShop : productShops){
             ProductWithSumSoldProduct productWithSumSoldProduct = new ProductWithSumSoldProduct(productShop);
-            int sumSoldProduct = productRepository.getSumSoldProduct(shopOwnerId, productShop.getProductCode());
-            productWithSumSoldProduct.setSumSoldProduct(sumSoldProduct);
+            Integer sumSoldProduct = productRepository.getSumSoldProduct(shopOwnerId, productShop.getProductCode());
+            int actualSumSoldProduct = (sumSoldProduct != null) ? sumSoldProduct.intValue() : 0;
+            productWithSumSoldProduct.setSumSoldProduct(actualSumSoldProduct);
             productWithSumSoldProductList.add(productWithSumSoldProduct);
         }
         productWithSumSoldProductList.sort(Comparator.comparingInt(ProductWithSumSoldProduct::getSumSoldProduct).reversed());
