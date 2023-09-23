@@ -1,11 +1,13 @@
 package com.sapo.shipping.service.impl;
 
+import com.sapo.shipping.dto.ShopOwnerWithNumberOfShippingOrder;
 import com.sapo.shipping.dto.UserDto;
 import com.sapo.shipping.dto.UserWithStatus;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.entity.User;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.UserMapper;
+import com.sapo.shipping.repository.ShippingOrderRepository;
 import com.sapo.shipping.repository.UserRepository;
 import com.sapo.shipping.service.IUserService;
 import jakarta.transaction.Transactional;
@@ -18,21 +20,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+
+    private final ShippingOrderRepository shippingOrderRepository;
     private final Validator validator;
     private final UserMapper mapper;
 
     private final PasswordEncoder passwordEncoder;
-    public UserService( UserRepository userRepository, Validator validator, UserMapper mapper,PasswordEncoder passwordEncoder) {
+    public UserService( ShippingOrderRepository shippingOrderRepository, UserRepository userRepository, Validator validator, UserMapper mapper,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.validator = validator;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
+        this.shippingOrderRepository = shippingOrderRepository;
     }
 
     @Override
@@ -80,7 +87,29 @@ public class UserService implements IUserService {
             usersWithStatus.add(userWithStatus);
         }
         return usersWithStatus;
-    };
+    }
+
+    @Override
+    public List<ShopOwnerWithNumberOfShippingOrder> getTop7ShopOwnerHaveMostShippingOrder(){
+        List<User> shopOwners = userRepository.getAllShopOwnerNoPage();
+        PageRequest p = PageRequest.of(0, Integer.MAX_VALUE);
+        List<ShopOwnerWithNumberOfShippingOrder> shopOwnerWithNumberOfShippingOrderList = new ArrayList<>();
+        for(User shopOwner : shopOwners){
+            ShopOwnerWithNumberOfShippingOrder shopOwnerWithNumberOfShippingOrder = new ShopOwnerWithNumberOfShippingOrder(shopOwner);
+            int numberOfShippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwner.getId(), p, null).getNumberOfElements();
+            shopOwnerWithNumberOfShippingOrder.setNumberOfShippingOrders(numberOfShippingOrders);
+            shopOwnerWithNumberOfShippingOrderList.add(shopOwnerWithNumberOfShippingOrder);
+        }
+        // Sắp xếp danh sách theo numberOfShippingOrders giảm dần
+        shopOwnerWithNumberOfShippingOrderList.sort(Comparator.comparingInt(ShopOwnerWithNumberOfShippingOrder::getNumberOfShippingOrders).reversed());
+
+        // Lấy ra top 7 phần tử
+        List<ShopOwnerWithNumberOfShippingOrder> top7ShopOwners = shopOwnerWithNumberOfShippingOrderList.stream()
+                .limit(7)
+                .collect(Collectors.toList());
+
+        return top7ShopOwners;
+    }
 
     @Override
     public User getById(int id) {

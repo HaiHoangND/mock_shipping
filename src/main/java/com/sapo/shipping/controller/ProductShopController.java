@@ -35,8 +35,7 @@ public class ProductShopController {
 
     @GetMapping("/getByShopOwnerId")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
-    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber,
-                                        @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
+    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
                 productShopService.getProductShopsByShopOwnerId(shopOwnerId, pageNumber, pageSize, keyWord));
@@ -48,6 +47,20 @@ public class ProductShopController {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
                 productShopService.getAllProductShopsByShopOwnerIdNoPage(shopOwnerId));
+    }
+
+    @GetMapping("/getRunningOutProductShop")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
+    GeneralResponse<?> getRunningOutProductShop(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber, @RequestParam int pageSize) {
+        return GeneralResponse.ok("success",
+                "Successfully fetched",
+                productShopService.getRunningOutProductShop(shopOwnerId,pageNumber, pageSize));
+    }
+
+    @GetMapping("/getTop10BestSelling")
+    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
+    GeneralResponse<?> getTop10BestSelling(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
+        return GeneralResponse.ok("success", "Successfully fetched", productShopService.getTop10BestSellingProducts(shopOwnerId));
     }
 
     @GetMapping("/checkNotExistedProductCode")

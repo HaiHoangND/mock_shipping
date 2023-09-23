@@ -1,5 +1,6 @@
 package com.sapo.shipping.service;
 
+import com.sapo.shipping.dto.ShopOwnerWithNumberOfShippingOrder;
 import com.sapo.shipping.dto.UserDto;
 import com.sapo.shipping.dto.UserWithStatus;
 import com.sapo.shipping.entity.ShippingOrder;
@@ -33,5 +34,7 @@ public interface IUserService {
     List<User> getAllShopOwnerNoPage();
 
     User updatePassword(int id, String password);
+
+    List<ShopOwnerWithNumberOfShippingOrder> getTop7ShopOwnerHaveMostShippingOrder();
 
 }

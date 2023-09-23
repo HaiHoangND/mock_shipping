@@ -2,6 +2,8 @@ package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ProductDto;
 import com.sapo.shipping.dto.ProductShopDto;
+import com.sapo.shipping.dto.ProductWithSumSoldProduct;
+import com.sapo.shipping.dto.ShopOwnerWithNumberOfShippingOrder;
 import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.ProductShop;
 import com.sapo.shipping.exception.BusinessException;
@@ -18,18 +20,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductShopService implements IProductShopService {
     private final ProductShopRepository productShopRepository;
+    private final ProductRepository productRepository;
     private final Validator validator;
     private final ProductShopMapper mapper;
 
-    public ProductShopService(ProductShopRepository productShopRepository, Validator validator, ProductShopMapper mapper) {
+    public ProductShopService(ProductRepository productRepository,ProductShopRepository productShopRepository, Validator validator, ProductShopMapper mapper) {
         this.productShopRepository = productShopRepository;
         this.validator = validator;
         this.mapper = mapper;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -47,7 +53,31 @@ public class ProductShopService implements IProductShopService {
     public Page<ProductShop> getProductShopsByShopOwnerId(Integer shopOwnerId, int pageNumber, int pageSize, String keyWord){
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return productShopRepository.getProductShopsByShopOwnerId(shopOwnerId, pageRequest, keyWord);
-    };
+    }
+
+    @Override
+    public List<ProductWithSumSoldProduct> getTop10BestSellingProducts(int shopOwnerId){
+        List<ProductShop> productShops = productShopRepository.getAllProductShopsByShopOwnerIdNoPage(shopOwnerId);
+        List<ProductWithSumSoldProduct> productWithSumSoldProductList = new ArrayList<>();
+        for(ProductShop productShop : productShops){
+            ProductWithSumSoldProduct productWithSumSoldProduct = new ProductWithSumSoldProduct(productShop);
+            int sumSoldProduct = productRepository.getSumSoldProduct(shopOwnerId, productShop.getProductCode());
+            productWithSumSoldProduct.setSumSoldProduct(sumSoldProduct);
+            productWithSumSoldProductList.add(productWithSumSoldProduct);
+        }
+        productWithSumSoldProductList.sort(Comparator.comparingInt(ProductWithSumSoldProduct::getSumSoldProduct).reversed());
+        List<ProductWithSumSoldProduct> top10ProductShops = productWithSumSoldProductList.stream()
+                .limit(10)
+                .collect(Collectors.toList());
+
+        return top10ProductShops;
+    }
+
+    @Override
+    public Page<ProductShop> getRunningOutProductShop(Integer shopOwnerId, int pageNumber, int pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return productShopRepository.getRunningOutProductShop(shopOwnerId, pageRequest);
+    }
 
     @Override
     public Boolean checkNotExistedProductCode(Integer shopOwnerId, String productCode){

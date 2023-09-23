@@ -45,4 +45,6 @@ public interface IShippingOrderService {
 
     List<ShippingOrderWithStatus> pieChartStatistic(int day, int month, int year);
 
+
+
 }

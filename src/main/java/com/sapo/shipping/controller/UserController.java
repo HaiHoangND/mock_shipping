@@ -73,6 +73,13 @@ public class UserController {
                 userService.getAllShopOwnerNoPage());
     }
 
+    @GetMapping("/getTop7ShopOwnerHaveMostShippingOrder")
+//    @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
+//            "or hasRole('COORDINATOR') or hasRole('ADMIN')")
+    GeneralResponse<?> getTop7ShopOwnerHaveMostShippingOrder( ) {
+        return GeneralResponse.ok("success", "Successfully fetched", userService.getTop7ShopOwnerHaveMostShippingOrder());
+    }
+
     @GetMapping("/getShippersWithStatus")
 //    @PreAuthorize("hasRole('COORDINATOR') or hasRole('ADMIN')")
     GeneralResponse<?> getShippersWithStatus() {

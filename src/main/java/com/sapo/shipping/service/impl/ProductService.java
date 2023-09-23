@@ -2,9 +2,11 @@ package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ProductDto;
 import com.sapo.shipping.entity.Product;
+import com.sapo.shipping.entity.ProductShop;
 import com.sapo.shipping.exception.BusinessException;
 import com.sapo.shipping.mapper.ProductMapper;
 import com.sapo.shipping.repository.ProductRepository;
+import com.sapo.shipping.repository.ProductShopRepository;
 import com.sapo.shipping.service.IProductService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
