@@ -2,6 +2,7 @@ package com.sapo.shipping.service.impl;
 
 import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.dto.MonthProfit;
+import com.sapo.shipping.dto.ShippingOrderWithStatus;
 import com.sapo.shipping.entity.Product;
 import com.sapo.shipping.entity.ShippingOrder;
 import com.sapo.shipping.exception.BusinessException;
@@ -21,10 +22,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ShippingOrderService implements IShippingOrderService {
@@ -146,7 +144,19 @@ public class ShippingOrderService implements IShippingOrderService {
         statisticsMap.put("Shippers", availableShippers);
         data.add(statisticsMap);
         return data;
-    };
+    }
+
+    @Override
+    public List<ShippingOrderWithStatus> pieChartStatistic(int day, int month, int year){
+        List<ShippingOrderWithStatus> shippingOrderWithStatuses = new ArrayList<>();
+        ShippingOrderWithStatus noStatusShippingOrder = new ShippingOrderWithStatus("No status",shippingOrderRepository.countNoStatusDeliveredShippingOrders(day, month, year));
+        ShippingOrderWithStatus unCompletedShippingOrder = new ShippingOrderWithStatus("Uncompleted", shippingOrderRepository.countUncompletedDeliveredShippingOrders(day, month, year));
+        ShippingOrderWithStatus successfulShippingOrder = new ShippingOrderWithStatus("Successful", shippingOrderRepository.countSuccessfulDeliveredShippingOrdersPerDay(day, month, year));
+        ShippingOrderWithStatus failureShippingOrder = new ShippingOrderWithStatus("Failure", shippingOrderRepository.countFailureDeliveredShippingOrders(day, month, year));
+        shippingOrderWithStatuses.addAll(Arrays.asList(noStatusShippingOrder, unCompletedShippingOrder, successfulShippingOrder, failureShippingOrder));
+
+        return shippingOrderWithStatuses;
+    }
 
     @Override
     public List<Object> shopOwnerStatistic(Integer shopOwnerId){

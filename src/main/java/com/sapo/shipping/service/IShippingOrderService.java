@@ -2,6 +2,7 @@ package com.sapo.shipping.service;
 
 import com.sapo.shipping.dto.ShippingOrderDto;
 import com.sapo.shipping.dto.MonthProfit;
+import com.sapo.shipping.dto.ShippingOrderWithStatus;
 import com.sapo.shipping.entity.ShippingOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,5 +42,7 @@ public interface IShippingOrderService {
     Double getTotalRevenueByShopOwnerId(Integer shopOwnerId);
 
     List<Object> shopOwnerStatistic(Integer shopOwnerId);
+
+    List<ShippingOrderWithStatus> pieChartStatistic(int day, int month, int year);
 
 }

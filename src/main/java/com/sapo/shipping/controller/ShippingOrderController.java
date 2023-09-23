@@ -86,6 +86,14 @@ public class ShippingOrderController {
                                 "Successfully fetched", shippingOrderService.getTotalRevenueForDay(day, month, year));
         }
 
+        @GetMapping("/pieChartStatistic")
+        @PreAuthorize("hasRole('ADMIN')")
+        GeneralResponse<?> pieChartStatistic(@RequestParam(name = "day") Integer day,
+                                                 @RequestParam(name = "month") Integer month, @RequestParam(name = "year") Integer year) {
+                return GeneralResponse.ok("success",
+                        "Successfully fetched", shippingOrderService.pieChartStatistic(day, month, year));
+        }
+
         @GetMapping("/countShippingOrdersDelivering")
         @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
                         "or hasRole('COORDINATOR') or hasRole('ADMIN')")

@@ -50,6 +50,62 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder,Int
     )
     Long countSuccessfulDeliveredShippingOrders();
 
+    @Query("SELECT COUNT(so) " +
+            "FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE ( os.status = 'Giao hàng thành công' OR os.status = 'Quản lý đã nhận tiền' OR os.status = 'Đã đưa tiền cho chủ shop' ) " +
+            "AND os.id IN (" +
+            "    SELECT MAX(os2.id) " +
+            "    FROM OrderStatus os2 " +
+            "    GROUP BY os2.shippingOrder.id " +
+            ")" +
+            "AND DAY(so.updatedAt) = :day " +
+            "AND MONTH(so.updatedAt) = :month " +
+            "AND YEAR(so.updatedAt) = :year "
+
+    )
+    Long countSuccessfulDeliveredShippingOrdersPerDay(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("SELECT COUNT(so) " +
+            "FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE ( os.status = 'Đang lấy hàng' OR os.status = 'Lấy hàng thành công' OR os.status = 'Đang giao hàng' ) " +
+            "AND os.id IN (" +
+            "    SELECT MAX(os2.id) " +
+            "    FROM OrderStatus os2 " +
+            "    GROUP BY os2.shippingOrder.id " +
+            ")" +
+            "AND DAY(so.updatedAt) = :day " +
+            "AND MONTH(so.updatedAt) = :month " +
+            "AND YEAR(so.updatedAt) = :year "
+    )
+    Long countUncompletedDeliveredShippingOrders(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("SELECT COUNT(so) " +
+            "FROM ShippingOrder so " +
+            "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
+            "WHERE ( os.status = 'Đơn hủy' ) " +
+            "AND os.id IN (" +
+            "    SELECT MAX(os2.id) " +
+            "    FROM OrderStatus os2 " +
+            "    GROUP BY os2.shippingOrder.id " +
+            ")"+
+            "AND DAY(so.updatedAt) = :day " +
+            "AND MONTH(so.updatedAt) = :month " +
+            "AND YEAR(so.updatedAt) = :year "
+
+    )
+    Long countFailureDeliveredShippingOrders(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("SELECT COUNT(so) " +
+            "FROM ShippingOrder so " +
+            "WHERE NOT EXISTS (SELECT 1 FROM OrderStatus os WHERE  os.shippingOrder.id = so.id)" +
+            "AND DAY(so.updatedAt) = :day " +
+            "AND MONTH(so.updatedAt) = :month " +
+            "AND YEAR(so.updatedAt) = :year "
+    )
+    Long countNoStatusDeliveredShippingOrders(@Param("day") Integer day, @Param("month") Integer month, @Param("year") Integer year);
+
     @Query("SELECT SUM(so.serviceFee) " +
             "FROM ShippingOrder so " +
             "JOIN OrderStatus os ON os.shippingOrder.id = so.id " +
