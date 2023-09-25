@@ -56,7 +56,7 @@ public class ProductShopService implements IProductShopService {
     }
 
     @Override
-    public List<ProductWithSumSoldProduct> getTop10BestSellingProducts(int shopOwnerId){
+    public List<ProductWithSumSoldProduct> getBestSellingProducts(int shopOwnerId, int numberOfProducts){
         List<ProductShop> productShops = productShopRepository.getAllProductShopsByShopOwnerIdNoPage(shopOwnerId);
         List<ProductWithSumSoldProduct> productWithSumSoldProductList = new ArrayList<>();
         for(ProductShop productShop : productShops){
@@ -68,7 +68,7 @@ public class ProductShopService implements IProductShopService {
         }
         productWithSumSoldProductList.sort(Comparator.comparingInt(ProductWithSumSoldProduct::getSumSoldProduct).reversed());
         List<ProductWithSumSoldProduct> top10ProductShops = productWithSumSoldProductList.stream()
-                .limit(10)
+                .limit(numberOfProducts)
                 .collect(Collectors.toList());
 
         return top10ProductShops;
