@@ -29,5 +29,5 @@ public interface IProductShopService {
     Boolean checkNotExistedProductCode(Integer shopOwnerId, String productCode);
 
     List<ProductShop> getAllProductShopsByShopOwnerIdNoPage(Integer shopOwnerId);
-    List<ProductWithSumSoldProduct> getTop10BestSellingProducts(int shopOwnerId);
+    List<ProductWithSumSoldProduct> getBestSellingProducts(int shopOwnerId, int numberOfProducts);
 }

@@ -35,7 +35,7 @@ public class ProductShopController {
 
     @GetMapping("/getByShopOwnerId")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
-    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
+    GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId, @RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam(required = false) String keyWord) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
                 productShopService.getProductShopsByShopOwnerId(shopOwnerId, pageNumber, pageSize, keyWord));
@@ -51,24 +51,24 @@ public class ProductShopController {
 
     @GetMapping("/getRunningOutProductShop")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
-    GeneralResponse<?> getRunningOutProductShop(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam int pageNumber, @RequestParam int pageSize) {
+    GeneralResponse<?> getRunningOutProductShop(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId, @RequestParam int pageNumber, @RequestParam int pageSize) {
         return GeneralResponse.ok("success",
                 "Successfully fetched",
-                productShopService.getRunningOutProductShop(shopOwnerId,pageNumber, pageSize));
+                productShopService.getRunningOutProductShop(shopOwnerId, pageNumber, pageSize));
     }
 
-    @GetMapping("/getTop10BestSelling")
+    @GetMapping("/getBestSelling")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
-    GeneralResponse<?> getTop10BestSelling(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId) {
-        return GeneralResponse.ok("success", "Successfully fetched", productShopService.getTop10BestSellingProducts(shopOwnerId));
+    GeneralResponse<?> getBestSelling(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId, @RequestParam(name = "numberOfProducts") Integer numberOfProducts) {
+        return GeneralResponse.ok("success", "Successfully fetched", productShopService.getBestSellingProducts(shopOwnerId, numberOfProducts));
     }
 
     @GetMapping("/checkNotExistedProductCode")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
-    GeneralResponse<?> checkNotExistedProductCode(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,@RequestParam(name = "productCode") String productCode) {
+    GeneralResponse<?> checkNotExistedProductCode(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId, @RequestParam(name = "productCode") String productCode) {
         try {
             return GeneralResponse.ok("success", "Successfully fetched", productShopService.checkNotExistedProductCode(shopOwnerId, productCode));
-        }catch (Exception e){
+        } catch (Exception e) {
             return GeneralResponse.failed("failed", e.getMessage());
         }
     }
@@ -78,7 +78,7 @@ public class ProductShopController {
     GeneralResponse<?> createProductShop(@RequestBody ProductShopDto productShopDto) {
         try {
             return GeneralResponse.ok("success", "Successfully created", productShopService.create(productShopDto));
-        }catch (Exception e){
+        } catch (Exception e) {
             return GeneralResponse.failed("failed", e.getMessage());
         }
     }
@@ -86,16 +86,16 @@ public class ProductShopController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
     GeneralResponse<?> updateProductShop(@PathVariable int id, @RequestBody ProductShopDto productShopDto) {
-        try{
+        try {
             return GeneralResponse.ok("success", "Successfully created", productShopService.update(id, productShopDto));
-        }catch (Exception e){
+        } catch (Exception e) {
             return GeneralResponse.failed("failed", e.getMessage());
         }
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
-    GeneralResponse<?> deleteProductShopById(@PathVariable int id){
+    GeneralResponse<?> deleteProductShopById(@PathVariable int id) {
         return GeneralResponse.ok("success",
                 "Successfully deleted",
                 productShopService.delete(id));
