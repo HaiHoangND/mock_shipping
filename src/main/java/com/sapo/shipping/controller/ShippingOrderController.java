@@ -21,12 +21,8 @@ public class ShippingOrderController {
         @GetMapping
         @PreAuthorize("hasRole('SHIPPER') or hasRole('SHOP') " +
                         "or hasRole('COORDINATOR') or hasRole('ADMIN')")
-        GeneralResponse<?> getAllShippingOrders(@RequestParam int pageNumber,
-                        @RequestParam int pageSize,
-                        @RequestParam(name = "orderCode", required = false) String orderCode) {
-                return GeneralResponse.ok("success",
-                                "Successfully fetched",
-                                shippingOrderService.getAll(pageNumber, pageSize, orderCode));
+        GeneralResponse<?> getAllShippingOrders(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam(name = "orderCode", required = false) String orderCode) {
+                return GeneralResponse.ok("success", "Successfully fetched", shippingOrderService.getAll(pageNumber, pageSize, orderCode));
         }
 
         @GetMapping("{id}")
@@ -47,7 +43,7 @@ public class ShippingOrderController {
         }
 
         @GetMapping("/getByShopOwnerId")
-        @PreAuthorize("hasRole('SHOP')")
+        @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
         GeneralResponse<?> getByShopOwnerId(@RequestParam(name = "ShopOwnerId") Integer shopOwnerId,
                         @RequestParam int pageNumber,
                         @RequestParam int pageSize,
