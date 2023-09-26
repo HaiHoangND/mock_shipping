@@ -26,7 +26,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "       WHEN 'unSuccessful' THEN " +
             "           (os.status IN ('Đang lấy hàng','Lấy hàng thành công','Đang giao hàng') AND os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id))" +
             "    END " +
-            ") AND os.shipper.id = :shipperId")
+            ") AND os.shipper.id = :shipperId ORDER BY so.updatedAt DESC ")
     List<ShippingOrder> getFilteredShippingOrders(@Param("shipperId") Integer shipperId, @Param("statusFilter") String statusFilter);
 
     Optional<User> findByEmail(String email);
