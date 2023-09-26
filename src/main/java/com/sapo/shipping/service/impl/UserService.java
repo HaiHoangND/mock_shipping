@@ -96,7 +96,7 @@ public class UserService implements IUserService {
         List<ShopOwnerWithNumberOfShippingOrder> shopOwnerWithNumberOfShippingOrderList = new ArrayList<>();
         for(User shopOwner : shopOwners){
             ShopOwnerWithNumberOfShippingOrder shopOwnerWithNumberOfShippingOrder = new ShopOwnerWithNumberOfShippingOrder(shopOwner);
-            int numberOfShippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwner.getId(), p, null).getNumberOfElements();
+            int numberOfShippingOrders = shippingOrderRepository.getAccountedShippingOrdersByShopOwnerId(shopOwner.getId()).size();
             shopOwnerWithNumberOfShippingOrder.setNumberOfShippingOrders(numberOfShippingOrders);
             if(shopOwnerWithNumberOfShippingOrder.getNumberOfShippingOrders() != 0){
                 shopOwnerWithNumberOfShippingOrderList.add(shopOwnerWithNumberOfShippingOrder);
