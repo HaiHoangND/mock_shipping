@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
-    @Query("SELECT SUM(p.quantity) FROM Product p WHERE p.shippingOrder.shopOwner.id = :shopOwnerId AND p.productCode = :productCode GROUP BY p.productCode")
+    @Query("SELECT SUM(p.quantity) FROM Product p JOIN OrderStatus os ON p.shippingOrder.id = os.shippingOrder.id WHERE p.shippingOrder.shopOwner.id = :shopOwnerId AND os.id IN (SELECT MAX(os2.id) FROM OrderStatus os2 GROUP BY os2.shippingOrder.id) AND os.status IN ('Giao hàng thành công','Quản lý đã nhận tiền','Đã đưa tiền cho chủ shop') AND p.productCode = :productCode GROUP BY p.productCode")
     Integer getSumSoldProduct(@Param("shopOwnerId") Integer shopOwnerId,@Param("productCode") String productCode);
 }
