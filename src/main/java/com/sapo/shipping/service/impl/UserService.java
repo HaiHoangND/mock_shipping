@@ -98,7 +98,9 @@ public class UserService implements IUserService {
             ShopOwnerWithNumberOfShippingOrder shopOwnerWithNumberOfShippingOrder = new ShopOwnerWithNumberOfShippingOrder(shopOwner);
             int numberOfShippingOrders = shippingOrderRepository.getShippingOrderByShopOwner(shopOwner.getId(), p, null).getNumberOfElements();
             shopOwnerWithNumberOfShippingOrder.setNumberOfShippingOrders(numberOfShippingOrders);
-            shopOwnerWithNumberOfShippingOrderList.add(shopOwnerWithNumberOfShippingOrder);
+            if(shopOwnerWithNumberOfShippingOrder.getNumberOfShippingOrders() != 0){
+                shopOwnerWithNumberOfShippingOrderList.add(shopOwnerWithNumberOfShippingOrder);
+            }
         }
         // Sắp xếp danh sách theo numberOfShippingOrders giảm dần
         shopOwnerWithNumberOfShippingOrderList.sort(Comparator.comparingInt(ShopOwnerWithNumberOfShippingOrder::getNumberOfShippingOrders).reversed());
